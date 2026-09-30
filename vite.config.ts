@@ -5,5 +5,9 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   base: '/grace-arnold-portfolio/',
   plugins: [react(), tailwindcss()],
-  test: { environment: 'jsdom', setupFiles: './src/test/setup.ts', include: ['src/**/*.test.tsx'] },
+  test: {
+    environment: 'jsdom',
+    setupFiles: './src/test/setup.ts',
+    include: ['src/**/*.test.{ts,tsx}'],
+  },
 });

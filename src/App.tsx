@@ -1,6 +1,11 @@
 import { useState } from 'react';
 import { experience, profile, projects, skills } from './content';
 import CaseStudy from './components/CaseStudy';
+import SiteTools from './components/SiteTools';
+import Engineering from './components/Engineering';
+import CopyEmail from './components/CopyEmail';
+import Illustration from './components/Illustration';
+import SkyEntry from './components/SkyEntry';
 
 const navigation = [
   ['Work', 'work'],
@@ -76,6 +81,7 @@ export default function App({ base = import.meta.env.BASE_URL }: { base?: string
             Résumé <span aria-hidden="true">↓</span>
           </a>
         </nav>
+        <SiteTools base={base} />
       </header>
       <main id="main" tabIndex={-1}>
         <section className="hero wrap" aria-labelledby="intro-heading">
@@ -243,14 +249,7 @@ export default function App({ base = import.meta.env.BASE_URL }: { base?: string
               <CaseStudy project={projects[2]} />
             </div>
           </article>
-          <div className="portfolio-note">
-            <span aria-hidden="true">↳</span>
-            <p>
-              <strong>This site is part of the work, too.</strong> Built with React, TypeScript, and
-              an eye for accessible, responsive design. My professional frontend experience is
-              primarily Vue and Angular; this is a place to put React into practice.
-            </p>
-          </div>
+          <Engineering base={base} />
         </section>
 
         <section
@@ -292,6 +291,16 @@ export default function App({ base = import.meta.env.BASE_URL }: { base?: string
                 </div>
               ))}
             </div>
+            <details className="ownership-aside">
+              <summary>A note on ownership</summary>
+              <div>
+                <p>
+                  For me, ownership includes the follow-through: supporting a release, explaining a
+                  decision, and helping the next engineer find their way.
+                </p>
+                <Illustration name="eldegirlboss" base={base} size={68} />
+              </div>
+            </details>
           </div>
         </section>
 
@@ -347,6 +356,9 @@ export default function App({ base = import.meta.env.BASE_URL }: { base?: string
             <p className="eyebrow">
               <span>04</span> LET’S CONNECT
             </p>
+            <div className="contact-greeting">
+              <Illustration name="skitty-hi" base={base} size={52} />
+            </div>
             <div className="contact-main">
               <div>
                 <h2 id="contact-title">
@@ -371,6 +383,7 @@ export default function App({ base = import.meta.env.BASE_URL }: { base?: string
             <a className="email-link" href={`mailto:${profile.email}`}>
               {profile.email}
             </a>
+            <CopyEmail base={base} />
             <div className="contact-bottom">
               <span>Say hello. I’d love to hear what you’re building.</span>
               <div>
@@ -384,6 +397,9 @@ export default function App({ base = import.meta.env.BASE_URL }: { base?: string
             </div>
           </div>
         </section>
+        <div className="wrap">
+          <SkyEntry />
+        </div>
       </main>
       <footer className="site-footer wrap">
         <a className="wordmark" href="#">

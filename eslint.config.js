@@ -7,6 +7,7 @@ import globals from 'globals';
 export default tseslint.config(
   { ignores: ['dist', '.tools', '.local', 'node_modules', 'playwright-report', 'test-results'] },
   js.configs.recommended,
+  { files: ['public/*.js'], languageOptions: { globals: globals.browser } },
   ...tseslint.configs.recommended,
   {
     files: ['**/*.{ts,tsx}'],

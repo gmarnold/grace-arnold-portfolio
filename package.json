@@ -17,12 +17,13 @@
     "test": "vitest run",
     "test:e2e": "playwright test",
     "check": "npm run typecheck && npm run lint && npm run format:check && npm test && npm run build",
-    "assets": "tsx scripts/assets.ts",
+    "assets": "tsx scripts/illustrations.ts && tsx scripts/assets.ts",
     "predev": "npm run assets"
   },
   "dependencies": {
     "@fontsource-variable/dm-sans": "^5.3.0",
     "@fontsource-variable/newsreader": "^5.3.0",
+    "astronomy-engine": "^2.1.19",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
   },
