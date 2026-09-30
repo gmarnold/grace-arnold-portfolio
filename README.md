@@ -1,63 +1,73 @@
-# Grace Arnold · Software Engineer
+# Grace Arnold · Software Engineering Portfolio
 
-A light, editorial portfolio for full-stack production work, creative development, and teaching. React + strict TypeScript + Vite + Tailwind, with build-time HTML prerendering and a one-page general resume. No backend or tracking.
+**[Explore the portfolio](https://gmarnold.github.io/grace-arnold-portfolio/)** · [Résumé](https://gmarnold.github.io/grace-arnold-portfolio/grace-arnold-resume.pdf) · [LinkedIn](https://www.linkedin.com/in/grace-m-arnold/) · [Email](mailto:grace.m.arnold@outlook.com)
 
-## Local setup
+A portfolio that demonstrates product judgment alongside implementation: clear professional content, accessible interactions, and optional creative features that leave the core experience fast and reliable.
 
-Use Node.js 24 LTS and npm. Exact dependency resolutions are in `package-lock.json`.
+I’m a software engineer with full-stack production ownership, a research background, and experience teaching and mentoring. My professional frontend work is primarily in Vue and Angular; this project puts React and TypeScript into practice through a complete, tested, deployed product.
 
-```sh
-npm ci
-npm run dev
+## What to explore
+
+- **Production ownership:** Calendar and Chat features at QSRSoft, supporting 1,000+ franchise managers from requirements through rollout and production support.
+- **Creative development:** Star Baker, a solo Unity/C# game with a playable release and a case study that explains implementation decisions and remaining limitations.
+- **Research engineering:** Python data-processing and visualization workflows, paired with workshops that helped colleagues use the tools.
+- **The portfolio itself:** an expandable engineering case study, a searchable command palette, system-aware themes, and an optional sky experience.
+
+## Technology and purpose
+
+| Layer             | Technology                                             | Why it is here                                                                                                            |
+| ----------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------- |
+| Interface         | React, strict TypeScript                               | Typed content and focused components, with explicit states for preferences, permissions, loading, and failure.            |
+| Build and styling | Vite, Tailwind CSS, semantic CSS tokens                | A small static deployment and a shared visual system across warm light and aubergine dark themes.                         |
+| Initial rendering | React build-time prerendering                          | Recruiters and search engines receive meaningful HTML immediately. Core content and case studies work without JavaScript. |
+| Interaction       | Native dialog, disclosure, select, and anchor elements | Familiar browser behavior, keyboard access, and simpler focus management without a UI framework.                          |
+| Weather           | Open-Meteo forecast API                                | A real asynchronous integration with validated responses, timeout handling, request reuse, caching, and fallbacks.        |
+| Astronomy         | Astronomy Engine, custom SVG                           | Local celestial calculations and a lightweight visualization, loaded only when requested.                                 |
+| Verification      | Vitest, React Testing Library, Playwright, axe         | Behavior tests and production-browser journeys, including accessibility and failure paths.                                |
+| Delivery          | GitHub Actions, GitHub Pages                           | Repeatable verification and a release workflow that checks the production build before publishing.                        |
+
+## Engineering decisions
+
+**Keep the important path independent.** Experience, projects, contact links, and the resume do not depend on a weather API or astronomy code. The sky panel is code-split and loaded on demand. Weather failure falls back from an opted-in location to Chicago, then to a static time-of-day treatment.
+
+**Use a coherent theme system.** System mode follows the device, including changes while the page is open. Explicit light/dark choices persist when storage is available. A small pre-stylesheet script applies saved preferences, while CSS provides an OS-aware fallback without JavaScript.
+
+**Make interactions discoverable and accessible.** The command palette supports Ctrl/Cmd+K and a visible mobile-accessible button, searchable commands, arrow-key navigation, Escape dismissal, and focus restoration. Standard navigation remains available. Decorative artwork never substitutes for a control’s label.
+
+**Treat optional location as optional.** Geolocation is requested only after an intentional click. Coordinates are rounded before weather requests and held only in tab memory. Weather results are reused for 15 minutes; no API secret or precise location is stored in the repository or browser storage.
+
+**Represent the sky honestly.** The panel calculates moon phase, upcoming rise/set events, and above-horizon positions. It distinguishes calculated position from actual observing visibility, and accounts for locations where a rise or set does not occur in the search window.
+
+**Choose infrastructure for the job.** GitHub Pages fits a static portfolio. Browser-side public weather data and local astronomy calculations do not currently justify a backend, database, or cloud credentials. The design leaves room for a service only when it solves a real requirement.
+
+## Quality and delivery
+
+The release pipeline checks TypeScript, ESLint, formatting, unit tests, and the production build before running browser tests and publishing. Browser coverage exercises desktop/mobile navigation, resume downloads, case studies, focus behavior, themes, reduced motion, no-JavaScript content, responsive overflow, and optional-feature failure paths. axe checks supplement visual review; they are not a claim of complete accessibility conformance.
+
+```text
+Typed content + React components
+          ↓
+Type, lint, formatting + unit checks
+          ↓
+Vite production build + prerendered HTML
+          ↓
+Browser journeys + accessibility checks
+          ↓
+GitHub Pages
 ```
 
-Open `http://127.0.0.1:5173/grace-arnold-portfolio/`.
+The visual system uses self-hosted, openly licensed fonts, optimized project images, reserved image dimensions, restrained motion, and visible keyboard focus. Native section links avoid static-host deep-link refresh failures.
 
-On Grace's current Windows machine, a checksum-verified portable Node is available in ignored `.tools`. In PowerShell, run this first from the repository:
+Six original fan-art illustrations by Grace add small personal touches. Transparent WebP derivatives keep them lightweight; decorative semantics keep them out of screen-reader navigation, and the animated source uses a still frame to avoid unnecessary motion.
 
-```powershell
-$env:PATH = "$PWD\.tools\node-v24.21.0-win-x64;$env:PATH"
-npm.cmd run dev
-```
+## A closer look at the code
 
-| Command            | Purpose                                                         |
-| ------------------ | --------------------------------------------------------------- |
-| `npm run dev`      | Generate resume/sharing assets and start development            |
-| `npm run check`    | Type checking, lint, format check, unit tests, production build |
-| `npm run build`    | Generate assets, typecheck, bundle, prerender                   |
-| `npm run preview`  | Preview production output on port 4173                          |
-| `npm run test:e2e` | Desktop/mobile browser journeys and axe accessibility checks    |
-| `npm run format`   | Apply consistent formatting                                     |
-| `npm run assets`   | Regenerate public resume PDF and social image                   |
+- [Typed career and project content](src/content.ts)
+- [Theme preferences and OS subscription](src/features/theme.ts)
+- [Searchable command palette](src/components/CommandPalette.tsx)
+- [Weather caching and fallback behavior](src/features/weather.ts)
+- [Local astronomy calculations](src/features/astronomy.ts)
+- [Browser acceptance tests](tests/enhancements.spec.ts)
+- [Verified release workflow](.github/workflows/deploy.yml)
 
-Install Chromium once before browser tests: `npx playwright install chromium` (Linux CI uses `--with-deps`).
-
-## Architecture & editing
-
-- `src/content.ts`: typed projects, job history, skills, and contact details. Add a `CaseStudy` entry here and a matching presentation in `App.tsx` when adding a project; the varied layouts are deliberate.
-- `src/App.tsx`: semantic page sections and responsive navigation. `src/components/CaseStudy.tsx` renders reusable native disclosure controls that work without JavaScript.
-- `src/styles.css`: Tailwind theme tokens, component styles, mobile layouts, focus and reduced-motion rules.
-- `scripts/prerender.tsx`: writes real content into the built homepage and adds metadata when `SITE_URL` is set. React hydrates the same component tree. Native `#section` links avoid Pages deep-link refresh failures.
-- `scripts/assets.ts`: generates the general resume from public career facts and the social image. Edit the concise resume descriptions here and job data in `content.ts`, then run `npm run assets`. Review the one-page PDF; the generator fails if it overflows.
-- `public/images/star-baker.webp`: optimized real screenshot from the game's itch.io page. Preserve source attribution in `SOURCES.md`; use appropriately sized WebP images and descriptive alt text for new work. Never substitute fictional employer screenshots.
-- Fonts: self-hosted DM Sans and Newsreader variable fonts, SIL Open Font License. No external font requests. License texts ship in `public/licenses`.
-
-The PDF contains no phone number or street address. Do not replace it with an employer-specific application resume without generalizing and reviewing it first. Do not add unverified metrics, hidden placeholders, or an unapproved portrait.
-
-## Verification
-
-Vitest covers navigation state and public destinations. Playwright tests actual production output under the repository subdirectory: expanded case studies, section navigation, PDF download/parsing, keyboard navigation, reduced motion, axe WCAG A/AA checks, no-JavaScript content, local asset requests, and overflow at 320/390/768/1440 pixels. Screenshots and reports are ignored local artifacts.
-
-Automated accessibility checks complement manual keyboard and visual inspection; they do not establish full WCAG conformance. Tests do not launch the external Unity game or assert external service availability.
-
-## Publication
-
-Published with Grace's approval on September 30, 2026: https://gmarnold.github.io/grace-arnold-portfolio/. Repository: https://github.com/gmarnold/grace-arnold-portfolio. The old repository remains untouched. CI verifies pushes and pull requests; deployment is a separate manual workflow.
-
-1. GitHub is connected as `gmarnold`. On this machine, use `.tools/github-cli/bin/gh.exe`; if sign-in expires, run its `auth login --hostname github.com --git-protocol https --web --scopes workflow` command.
-2. Commit and push approved updates to `main`. `origin` points to `gmarnold/grace-arnold-portfolio`; never change it to `ProfessionalWebsite`.
-3. Pages already uses GitHub Actions. Run **Publish approved portfolio** from Actions on `main`. It reruns all checks before deploying.
-
-The intended URL is `https://gmarnold.github.io/grace-arnold-portfolio/`. The publishing workflow supplies it as `SITE_URL` for canonical and social metadata. If the repository/address changes, update `vite.config.ts`, `scripts/prerender.tsx`, `playwright.config.ts`, test URLs, and workflow `SITE_URL` together before deploying. No canonical URL is emitted for an unconfigured local build.
-
-Setup references: [Vite](https://vite.dev/guide/), [Tailwind's Vite integration](https://tailwindcss.com/docs/installation/using-vite), [React hydration](https://react.dev/reference/react-dom/client/hydrateRoot), [Vite on GitHub Pages](https://vite.dev/guide/static-deploy.html#github-pages), [Playwright CI](https://playwright.dev/docs/ci-intro).
+Career claims and project assets are grounded in the [documented sources](SOURCES.md). Employer case studies use public-safe descriptions rather than proprietary code or invented screenshots.

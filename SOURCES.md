@@ -21,3 +21,10 @@ Other repositories reviewed before selection:
 - ICS-Labs: repository description identifies a course/lab collection; not selected as evidence of original product work.
 
 QSRSoft's typography panel is an editorial scope illustration, not an employer UI screenshot. Research workload volume is not presented as a benchmark or speed improvement.
+
+## Optional exploration features
+
+- Grace supplied the enhancement brief and confirmed authorship of six custom Pokémon fan-art illustrations. The original files are in `public/illustrations`: five named PNGs plus `gamerrex.gif` for Calyrex. WebP versions fit the artwork inside a transparent 160×160 canvas without cropping. Calyrex uses the GIF's first frame to remain static and motion-safe. No AI replacements or extracted chat screenshots are used.
+- [MDN prefers-color-scheme](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme): OS-aware CSS fallback alongside explicit theme preferences.
+- [Open-Meteo documentation](https://open-meteo.com/en/docs): current `weather_code` and `is_day`, timezone handling, and WMO code mapping. Visible attribution links to Open-Meteo. Weather is optional and never blocks core portfolio rendering.
+- [Astronomy Engine](https://github.com/cosinekitty/astronomy), version 2.1.19, MIT license: locally calculated phase, illumination, rise/set events, and topocentric horizon positions. Installed TypeScript signatures were inspected. The visualization is a custom SVG rather than a third-party embedded sky application.
