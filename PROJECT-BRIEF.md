@@ -30,8 +30,8 @@
 
 ## Remaining decisions and access
 
-- Grace's review of the local design, case-study wording, and general resume; publication approval is still pending.
+- Grace approved publishing this version on September 30, 2026. Proceed with the new repository and Pages deployment once GitHub sign-in is complete; no further publication approval is needed for this version.
 - No further content questions block this version. New creative projects and an optional approved portrait can be added later.
-- GitHub CLI is unavailable and Git Credential Manager returned no connected GitHub accounts. Authenticate as gmarnold before creating/pushing the new repository; see README.
+- Official GitHub CLI 2.102.0 was downloaded and checksum-verified into ignored .tools/github-cli/bin/gh.exe. Git Credential Manager returned no connected GitHub accounts. Grace needs to complete browser sign-in as gmarnold before creating/pushing the new repository.
 - GitHub, itch.io, source, and gameplay-video links returned HTTP 200. LinkedIn rejected HEAD (405), then returned HTTP 200 to a normal GET request. Email destination matches Grace's approved mailto address; no test message was sent.
 - The public TwitchNetwork source contained credential-like values. Grace was notified; none were copied here and no changes were made to that repository.
