@@ -379,7 +379,7 @@ h2 {
   margin-bottom: 17px;
 }
 .project-summary {
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1.85;
   color: var(--color-muted);
   max-width: 475px;
@@ -438,7 +438,7 @@ h2 {
   margin: 22px 0 7px;
 }
 .case-body p {
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.8;
   color: var(--color-muted);
 }
@@ -652,7 +652,7 @@ figcaption {
   margin-bottom: 13px;
 }
 .job-description {
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.85;
   color: var(--color-muted);
   max-width: 680px;
@@ -672,13 +672,13 @@ figcaption {
   margin-bottom: 15px;
 }
 .skills-grid p {
-  font-size: 11px;
+  font-size: 13px;
   line-height: 1.9;
   margin-bottom: 9px;
 }
 .skills-grid .skill-context {
   color: var(--color-muted);
-  font-size: 10px;
+  font-size: 12px;
 }
 .about-section {
   display: grid;
@@ -699,7 +699,7 @@ figcaption {
   padding-top: 2px;
 }
 .about-copy p {
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1.85;
   color: var(--color-muted);
 }

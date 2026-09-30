@@ -203,16 +203,16 @@ export default function App({ base = import.meta.env.BASE_URL }: { base?: string
                 <img
                   src={`${base}images/star-baker.webp`}
                   width="1200"
-                  height="675"
+                  height="717"
                   loading="lazy"
-                  alt="Star Baker game artwork: an astronaut collecting baked goods among asteroids in space"
+                  alt="Star Baker gameplay screenshot: an astronaut collecting baked goods among asteroids in space"
                 />
                 <span className="play-label">
                   Play Star Baker <Arrow />
                 </span>
               </a>
               <figcaption>
-                Star Baker · Original game artwork from the published itch.io page
+                Star Baker · Gameplay screenshot from the published itch.io page
               </figcaption>
             </figure>
             <div className="project-copy">

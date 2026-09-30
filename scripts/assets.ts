@@ -15,7 +15,7 @@ const ink = rgb(0.19, 0.18, 0.21);
 const purple = rgb(0.4, 0.31, 0.48);
 let y = 752;
 
-function text(value: string, size = 9, strong = false, color = ink, gap = 3) {
+function text(value: string, size = 10, strong = false, color = ink, gap = 3) {
   const font = strong ? bold : regular;
   const words = value.split(/\s+/);
   let line = '';
@@ -73,20 +73,20 @@ const descriptions = [
 experience.forEach((job, index) => {
   text(`${job.company}  |  ${job.dates}`, 9, true);
   text(`${job.role}  |  ${job.location}`, 8, false, purple);
-  text(descriptions[index], 8.5, false, ink, 3);
+  text(descriptions[index], 9.5, false, ink, 3);
   y -= 5;
 });
 heading('Education & mentorship');
 text('Illinois Institute of Technology — M.S. & B.S. in Computer Science, May 2022', 9, true);
 text(
   'Teaching Assistant, Jan 2019–May 2022: led Computer Organization/MIPS and Data Structures labs serving 80+ students. Founder and President of Google Developer Student Clubs; taught Google Cloud and Android development.',
-  8.5,
+  9.5,
 );
 heading('Selected creative project');
 text('Star Baker — Sole developer | Unity, C#, WebGL | grachay.itch.io/star-baker', 9, true);
 text(
   'Built and published an action side-scroller with obstacle spawning, scoring, power-ups, and collision feedback. Documented debugging decisions and remaining limitations. Art assets from the Unity Asset Store.',
-  8.5,
+  9.5,
 );
 if (y < 30) throw new Error(`Resume exceeds one page: baseline ${y}`);
 await writeFile('public/grace-arnold-resume.pdf', await pdf.save());
