@@ -15,7 +15,7 @@ npm run dev
 
 Open `http://127.0.0.1:5173/grace-arnold-portfolio/`.
 
-On Grace's current Windows machine, a checksum-verified portable Node is available in ignored `.tools`. In PowerShell, run this first from the repository:
+On my current Windows machine, a checksum-verified portable Node is available in ignored `.tools`. In PowerShell, run this first from the repository:
 
 ```powershell
 $env:PATH = "$PWD\.tools\node-v24.21.0-win-x64;$env:PATH"
@@ -54,7 +54,7 @@ Automated accessibility checks complement manual keyboard and visual inspection;
 
 ## Publication
 
-Published with Grace's approval on September 30, 2026: https://gmarnold.github.io/grace-arnold-portfolio/. Repository: https://github.com/gmarnold/grace-arnold-portfolio. The old repository remains untouched. CI verifies pushes and pull requests; deployment is a separate manual workflow.
+I first published this site on September 30, 2026: https://gmarnold.github.io/grace-arnold-portfolio/. Repository: https://github.com/gmarnold/grace-arnold-portfolio. The old repository remains untouched. CI verifies pushes and pull requests; deployment is a separate manual workflow.
 
 1. GitHub is connected as `gmarnold`. On this machine, use `.tools/github-cli/bin/gh.exe`; if sign-in expires, run its `auth login --hostname github.com --git-protocol https --web --scopes workflow` command.
 2. Commit and push approved updates to `main`. `origin` points to `gmarnold/grace-arnold-portfolio`; never change it to `ProfessionalWebsite`.
@@ -70,19 +70,27 @@ Theme tokens are in `src/themes.css`. `src/features/theme.ts` uses an external-s
 
 `SiteTools` owns the palette and the optional native modal. `Modal` restores the opener, focuses the current panel, and wraps Tab/Shift+Tab. The sky panel is a lazy import with an error boundary; it is never part of the initial rendering dependency chain.
 
-Save Grace's six original PNGs in `public/illustrations/` using these exact names:
+I keep my six original artwork files in `public/illustrations/` under these names:
 
 - `eldegirlboss.png` — optional ownership disclosure
 - `sleepy-espeon.png` — dark-mode palette and sky panel
 - `muscle-milcery.png` — expanded engineering case study
-- `skitty-hi.png` — small contact greeting
+- `skitty-hi.png` — light-mode counterpart to Sleepy Espeon
 - `toggers.png` — brief successful-copy feedback
 - `calyrex-gamer.png` or the supplied `gamerrex.gif` — command-palette footer (GIF is exported as a still frame)
 
 Run `npm run assets` (also included in dev/build). `scripts/illustrations.ts` fits each original into a transparent 160×160 WebP without cropping and generates the typed manifest. Missing art is omitted with no broken requests or substitute imagery. The originals stay available for future exports; the GIF's first frame is used instead of animated playback. Artwork is decorative (`alt=""`) and never the sole label for a control. Restart dev or rebuild after adding originals.
 
-The sky panel requests Chicago weather only when opened. Background atmosphere is separately opt-in and static. Open-Meteo requests validate their payload, share in-flight work, time out after five seconds, and cache successful data in memory for 15 minutes. Optional browser geolocation has an eight-second timeout; coordinates are rounded to 0.1 degrees and never written to storage. Local weather failure falls back to Chicago, then to Chicago time of day. Astronomy still uses the selected observing location and is calculated locally with Astronomy Engine.
+I load Chicago weather automatically after hydration through AtmosphereProvider. The details panel shares that state and cache. Background atmosphere is enabled by default and can be hidden for the current visit. Open-Meteo requests validate their payload, share in-flight work, time out after five seconds, and cache successful data in memory for 15 minutes. Optional browser geolocation has an eight-second timeout; coordinates are rounded to 0.1 degrees and never written to storage. Local weather failure falls back to Chicago, then to Chicago time of day. Astronomy still uses the selected observing location and is calculated locally with Astronomy Engine.
 
-The SVG shows above-horizon positions at the displayed capture time, not a prediction of naked-eye visibility. Rise/set searches cover the next 48 hours and display an honest absence at polar locations. The refresh control recalculates positions while respecting the weather cache. With local weather unavailable, the sky panel uses the device timezone for visitor coordinates and explicitly displays that timezone.
+The details-panel SVG shows above-horizon positions at the displayed capture time, not a prediction of naked-eye visibility. Rise/set searches cover the next 48 hours and display an honest absence at polar locations. The refresh control recalculates positions while respecting the weather cache. With local weather unavailable, the sky panel uses the device timezone for visitor coordinates and explicitly displays that timezone.
 
 Tests mock external weather for determinism. New coverage includes both themes, OS changes, persistent overrides, blocked storage, palette focus and keyboard behavior, denied/unavailable geolocation, weather timeout and fallback, caching, polar astronomy, and no-JavaScript content. The AWS/backend phase is deferred; there is no functional need for it yet.
+
+## Hero atmosphere
+
+I use src/features/atmosphere.ts for the WMO-to-preset table, query parsing, and Moon render geometry. AtmosphereProvider shares Chicago/default or explicitly chosen location, weather, and preview state. HeroAtmosphere draws the composited SVG/CSS scene. src/features/heroSky.ts loads progressively and uses the licensed constellations.json subset with the existing Astronomy Engine; no new runtime dependency is required.
+
+I refresh on tab visibility and every 15 minutes while visible. Successful weather data is cached in memory for 15 minutes; concurrent consumers share one request. Expired data is not shown as current after a refresh fails. The status shows when data was checked. Location remains rounded and memory-only. Preview mode bypasses the API and never writes theme or location settings.
+
+See [exact preview links and expected visuals](ATMOSPHERE_PREVIEW.md). For constrained Windows machines, I use npm run test:e2e -- --workers=2 to avoid exhausting browser network buffers.
