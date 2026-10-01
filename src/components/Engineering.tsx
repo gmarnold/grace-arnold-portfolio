@@ -55,8 +55,8 @@ export default function Engineering({ base }: { base: string }) {
           </div>
           <p>
             GitHub Actions verifies changes. A separate release workflow reruns checks before
-            publishing. Optional sky features load independently, so an external service cannot hold
-            up the portfolio.
+            publishing. I load the Chicago atmosphere progressively, so an external service cannot
+            hold up the portfolio.
           </p>
           <a className="text-link" href="https://github.com/gmarnold/grace-arnold-portfolio">
             Explore the repository <span aria-hidden="true">↗</span>

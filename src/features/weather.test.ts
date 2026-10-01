@@ -63,11 +63,11 @@ describe('optional weather', () => {
   });
   it('uses a static night mood and distinguishes rain, snow, and storms', async () => {
     const { weatherMood } = await import('./weather');
-    expect(weatherMood(0, false)).toBe('clear-night');
-    expect(weatherMood(3, false)).toBe('cloudy-night');
-    expect(weatherMood(65, true)).toBe('rain');
-    expect(weatherMood(75, true)).toBe('snow');
-    expect(weatherMood(99, true)).toBe('storm');
+    expect(weatherMood(0)).toBe('clear');
+    expect(weatherMood(3)).toBe('overcast');
+    expect(weatherMood(65)).toBe('heavy-rain');
+    expect(weatherMood(75)).toBe('heavy-snow');
+    expect(weatherMood(99)).toBe('hail');
   });
   it('reports unsupported geolocation and permission denial without requesting on import', async () => {
     vi.stubGlobal('navigator', {});

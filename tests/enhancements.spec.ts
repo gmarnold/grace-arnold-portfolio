@@ -88,7 +88,7 @@ test('light and dark expanded content and palette meet axe checks', async ({ pag
   await page.screenshot({ path: `.local/${testInfo.project.name}-dark.png`, fullPage: true });
 });
 
-test('sky loads only on demand, uses Chicago, caches weather and respects reduced motion', async ({
+test('Chicago weather loads automatically; details stay lazy, cached and motion-safe', async ({
   page,
 }, testInfo) => {
   let requests = 0;
@@ -111,15 +111,15 @@ test('sky loads only on demand, uses Chicago, caches weather and respects reduce
   });
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('./');
-  expect(requests).toBe(0);
+  await expect.poll(() => requests).toBe(1);
   expect(scripts.some((url) => url.includes('SkyExperience'))).toBe(false);
   await page.getByRole('button', { name: 'Tonight’s sky' }).click();
   const dialog = page.getByRole('dialog', { name: 'Tonight’s sky' });
-  await expect(dialog.getByText('Clear night', { exact: true })).toBeVisible();
+  await expect(dialog.getByText('Clear', { exact: true })).toBeVisible();
   await expect(dialog.getByText('Next sunrise', { exact: true })).toBeVisible();
   expect(requests).toBe(1);
-  await dialog.getByRole('checkbox', { name: 'Use as background' }).check();
-  await expect(page.locator('html')).toHaveAttribute('data-atmosphere', 'clear-night');
+  await expect(dialog.getByRole('checkbox', { name: 'Show atmosphere' })).toBeChecked();
+  await expect(page.locator('.hero-atmosphere')).toHaveAttribute('data-preset', 'clear');
   expect(
     await page
       .locator('.hero')
@@ -133,7 +133,7 @@ test('sky loads only on demand, uses Chicago, caches weather and respects reduce
   await page.keyboard.press('Escape');
   await expect(page.getByRole('button', { name: 'Tonight’s sky' })).toBeFocused();
   await page.getByRole('button', { name: 'Tonight’s sky' }).click();
-  await expect(dialog.getByText('Clear night', { exact: true })).toBeVisible();
+  await expect(dialog.getByText('Clear', { exact: true })).toBeVisible();
   expect(requests).toBe(1);
 });
 

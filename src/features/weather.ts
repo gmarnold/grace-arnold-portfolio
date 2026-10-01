@@ -1,3 +1,4 @@
+import { normalizeWeatherCondition, labels, wmoCodes, type WeatherPreset } from './atmosphere';
 export interface SkyLocation {
   latitude: number;
   longitude: number;
@@ -8,9 +9,9 @@ export interface Weather {
   isDay: boolean;
   timezone: string;
   fetchedAt: number;
+  temperature: number | null;
 }
-export type Atmosphere =
-  'sunny' | 'overcast' | 'rain' | 'snow' | 'storm' | 'clear-night' | 'cloudy-night';
+export type Atmosphere = WeatherPreset;
 export const chicago: SkyLocation = { latitude: 41.88, longitude: -87.63, label: 'Chicago' };
 const ttl = 15 * 60 * 1000;
 const cache = new Map<string, Weather>();
@@ -24,36 +25,20 @@ export function setSkyLocation(value: SkyLocation) {
   visitorLocation = value;
 }
 
-export function weatherMood(code: number, isDay: boolean): Atmosphere {
-  if (code >= 95) return 'storm';
-  if ([71, 73, 75, 77, 85, 86].includes(code)) return 'snow';
-  if ([51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82].includes(code)) return 'rain';
-  if (code <= 1) return isDay ? 'sunny' : 'clear-night';
-  return isDay ? 'overcast' : 'cloudy-night';
+export function weatherMood(code: number): Atmosphere {
+  return normalizeWeatherCondition(code);
 }
-
-export const weatherLabels: Record<Atmosphere, string> = {
-  sunny: 'Clear or mostly clear',
-  overcast: 'Cloudy or misty',
-  rain: 'Rain or drizzle',
-  snow: 'Snow',
-  storm: 'Thunderstorms',
-  'clear-night': 'Clear night',
-  'cloudy-night': 'Cloudy night',
-};
+export const weatherLabels = labels;
 
 function parseWeather(value: unknown): Weather {
   if (!value || typeof value !== 'object') throw new Error('Invalid weather response');
   const data = value as {
-    current?: { weather_code?: unknown; is_day?: unknown };
+    current?: { weather_code?: unknown; is_day?: unknown; temperature_2m?: unknown };
     timezone?: unknown;
   };
   const code = data.current?.weather_code;
   const isDay = data.current?.is_day;
-  const validCodes = [
-    0, 1, 2, 3, 45, 48, 51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 71, 73, 75, 77, 80, 81, 82, 85, 86,
-    95, 96, 99,
-  ];
+  const validCodes = wmoCodes;
   if (
     typeof code !== 'number' ||
     !validCodes.includes(code) ||
@@ -62,7 +47,17 @@ function parseWeather(value: unknown): Weather {
   )
     throw new Error('Incomplete weather response');
   new Intl.DateTimeFormat('en-US', { timeZone: data.timezone });
-  return { code, isDay: isDay === 1, timezone: data.timezone, fetchedAt: Date.now() };
+  return {
+    code,
+    isDay: isDay === 1,
+    timezone: data.timezone,
+    fetchedAt: Date.now(),
+    temperature:
+      typeof data.current?.temperature_2m === 'number' &&
+      Number.isFinite(data.current.temperature_2m)
+        ? data.current.temperature_2m
+        : null,
+  };
 }
 
 export async function getWeather(location: SkyLocation): Promise<Weather> {
@@ -78,7 +73,8 @@ export async function getWeather(location: SkyLocation): Promise<Weather> {
       const params = new URLSearchParams({
         latitude: String(location.latitude),
         longitude: String(location.longitude),
-        current: 'weather_code,is_day',
+        current: 'weather_code,is_day,temperature_2m',
+        temperature_unit: 'fahrenheit',
         timezone: 'auto',
       });
       const response = await fetch(`https://api.open-meteo.com/v1/forecast?${params}`, {
@@ -108,7 +104,7 @@ export interface WeatherResult {
 export async function loadWeather(location: SkyLocation): Promise<WeatherResult> {
   try {
     const weather = await getWeather(location);
-    return { weather, location, mood: weatherMood(weather.code, weather.isDay), message: '' };
+    return { weather, location, mood: weatherMood(weather.code), message: '' };
   } catch {
     if (location !== chicago) {
       try {
@@ -116,7 +112,7 @@ export async function loadWeather(location: SkyLocation): Promise<WeatherResult>
         return {
           weather,
           location: chicago,
-          mood: weatherMood(weather.code, weather.isDay),
+          mood: weatherMood(weather.code),
           message:
             'Local weather is unavailable. Showing Chicago weather; sky calculations still use your selected location.',
         };
@@ -124,17 +120,10 @@ export async function loadWeather(location: SkyLocation): Promise<WeatherResult>
         /* Fall through to a static, time-based atmosphere. */
       }
     }
-    const hour = Number(
-      new Intl.DateTimeFormat('en-US', {
-        timeZone: 'America/Chicago',
-        hour: 'numeric',
-        hourCycle: 'h23',
-      }).format(new Date()),
-    );
     return {
       weather: null,
       location: chicago,
-      mood: hour >= 6 && hour < 18 ? 'overcast' : 'cloudy-night',
+      mood: 'overcast',
       message:
         'Weather is unavailable. The atmosphere uses Chicago time of day; sky calculations still work locally.',
     };

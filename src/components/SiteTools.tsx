@@ -75,12 +75,20 @@ export default function SiteTools({ base }: { base: string }) {
           {panel === 'commands' ? (
             <>
               <CommandPalette base={base} onClose={close} onSky={() => setPanel('sky')} />
-              {resolved === 'dark' && (
+              {
                 <div className="night-note">
-                  <Illustration name="sleepy-espeon" base={base} size={40} />
-                  <span>A quieter light for a little exploring.</span>
+                  <Illustration
+                    name={resolved === 'dark' ? 'sleepy-espeon' : 'skitty-hi'}
+                    base={base}
+                    size={40}
+                  />
+                  <span>
+                    {resolved === 'dark'
+                      ? 'A quieter light for a little exploring.'
+                      : 'A little sunshine for a little exploring.'}
+                  </span>
                 </div>
-              )}
+              }
             </>
           ) : (
             <SkyBoundary>

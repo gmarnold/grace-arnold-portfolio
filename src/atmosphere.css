@@ -1,0 +1,332 @@
+/* One isolated scene, ordered sky → stars → body → clouds → precipitation → content. */
+:root {
+  --sky-top: #e9e2f1;
+  --sky-star: #766186;
+  --sky-cloud: #c9c5d5;
+  --sky-rain: #7d869e;
+  --sky-snow: #a0a3c1;
+  --sun-fill: #eed7a5;
+  --moon-fill: #e4daeb;
+  --moon-dark: #5c4c70;
+}
+:root[data-theme='dark'] {
+  --sky-top: #53445f;
+  --sky-star: #21152f;
+  --sky-cloud: #80748d;
+  --sky-rain: #c3bed8;
+  --sky-snow: #e0d9ea;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --sky-top: #53445f;
+    --sky-star: #21152f;
+    --sky-cloud: #80748d;
+    --sky-rain: #c3bed8;
+    --sky-snow: #e0d9ea;
+  }
+}
+.site-header {
+  position: relative;
+  z-index: 2;
+}
+.hero-atmosphere {
+  position: absolute;
+  z-index: -1;
+  inset: -150px calc((100% - 100vw) / 2) 0;
+  overflow: hidden;
+  pointer-events: none;
+  isolation: isolate;
+  mask-image: linear-gradient(#000 0%, #000 58%, transparent 100%);
+}
+.hero-atmosphere > div,
+.constellation-layer {
+  position: absolute;
+}
+.sky-gradient {
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(var(--sky-top), var(--color-paper) 94%);
+}
+.constellation-layer {
+  z-index: 1;
+  width: min(1300px, 100%);
+  height: 100%;
+  right: -5%;
+  top: -5%;
+  fill: var(--sky-star);
+  stroke: var(--sky-star);
+  stroke-width: 0.8;
+  opacity: 0.66;
+}
+.constellation-layer circle {
+  stroke: none;
+}
+.hero-atmosphere[data-time='day'] .constellation-layer {
+  opacity: 0.2;
+}
+.celestial-body {
+  z-index: 2;
+  width: clamp(110px, 15vw, 195px);
+  height: clamp(110px, 15vw, 195px);
+  top: 175px;
+  right: max(5%, calc((100vw - 1200px) / 2));
+  opacity: 0.84;
+}
+.celestial-body svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.hero-sun {
+  fill: var(--sun-fill);
+  filter: drop-shadow(0 0 28px var(--sun-fill));
+}
+.sun-ring {
+  fill: none;
+  stroke: var(--sun-fill);
+  stroke-width: 0.6;
+  opacity: 0.5;
+}
+.moon-shadow {
+  fill: var(--moon-dark);
+}
+.moon-light {
+  fill: var(--moon-fill);
+}
+.moon-outline {
+  fill: none;
+  stroke: var(--moon-fill);
+  stroke-width: 0.45;
+  opacity: 0.45;
+}
+.cloud-layer {
+  z-index: 3;
+  inset: 0;
+  opacity: 0;
+}
+.cloud-layer span {
+  position: absolute;
+  top: 210px;
+  right: -8%;
+  width: 50%;
+  height: 90px;
+  border-radius: 50%;
+  background: var(--sky-cloud);
+  filter: blur(18px);
+  animation: cloud-drift 30s ease-in-out infinite alternate;
+}
+.cloud-layer span:nth-child(2) {
+  top: 140px;
+  right: 28%;
+  width: 32%;
+  height: 65px;
+  animation-delay: -15s;
+  opacity: 0.65;
+}
+.cloud-layer span:nth-child(3) {
+  top: 325px;
+  right: -10%;
+  width: 75%;
+  animation-delay: -8s;
+  opacity: 0.75;
+}
+.hero-atmosphere[data-preset='mostly-clear'] .cloud-layer {
+  opacity: 0.17;
+}
+.hero-atmosphere[data-preset='partly-cloudy'] .cloud-layer {
+  opacity: 0.48;
+}
+.hero-atmosphere:is(
+    [data-preset='overcast'],
+    [data-preset='drizzle'],
+    [data-preset='rain'],
+    [data-preset='snow'],
+    [data-preset='freezing']
+  )
+  .cloud-layer {
+  opacity: 0.78;
+}
+.hero-atmosphere:is(
+    [data-preset='heavy-rain'],
+    [data-preset='heavy-snow'],
+    [data-preset='storm'],
+    [data-preset='hail']
+  )
+  .cloud-layer {
+  opacity: 0.95;
+}
+.hero-atmosphere:is(
+    [data-preset='overcast'],
+    [data-preset='heavy-rain'],
+    [data-preset='storm'],
+    [data-preset='hail'],
+    [data-preset='fog']
+  )
+  .constellation-layer {
+  opacity: 0.07;
+}
+.hero-atmosphere[data-preset='fog'] .cloud-layer {
+  opacity: 0.65;
+  filter: blur(24px);
+  transform: scaleY(2);
+}
+.hero-atmosphere:is([data-preset='storm'], [data-preset='hail']) .sky-gradient {
+  background: linear-gradient(
+    color-mix(in srgb, var(--sky-top), var(--moon-dark) 35%),
+    var(--color-paper)
+  );
+}
+.precipitation-layer {
+  z-index: 4;
+  inset: 150px 0 0 35%;
+  opacity: 0;
+}
+.hero-atmosphere:is(
+    [data-preset='drizzle'],
+    [data-preset='rain'],
+    [data-preset='heavy-rain'],
+    [data-preset='storm'],
+    [data-preset='freezing'],
+    [data-preset='hail']
+  )
+  .precipitation-layer {
+  opacity: 0.27;
+  background-image: repeating-linear-gradient(
+    108deg,
+    transparent 0 24px,
+    var(--sky-rain) 25px 26px,
+    transparent 27px 58px
+  );
+  background-size: 80px 75px;
+  mask-image: repeating-linear-gradient(transparent 0 15px, #000 18px 32px, transparent 36px 75px);
+  animation: rain-fall 1.8s linear infinite;
+}
+.hero-atmosphere[data-preset='drizzle'] .precipitation-layer {
+  opacity: 0.12;
+  background-size: 160px 110px;
+}
+.hero-atmosphere:is([data-preset='heavy-rain'], [data-preset='storm']) .precipitation-layer {
+  opacity: 0.4;
+  background-size: 48px 55px;
+}
+.hero-atmosphere:is([data-preset='snow'], [data-preset='heavy-snow'], [data-preset='hail'])
+  .precipitation-layer {
+  opacity: 0.65;
+  background-image:
+    radial-gradient(circle at 15px 20px, var(--sky-snow) 0 2px, transparent 3px),
+    radial-gradient(circle at 58px 67px, var(--sky-snow) 0 1px, transparent 2px);
+  background-size: 100px 110px;
+  mask-image: none;
+  animation: snow-fall 16s linear infinite;
+}
+.hero-atmosphere[data-preset='heavy-snow'] .precipitation-layer {
+  background-size: 60px 65px;
+  opacity: 0.85;
+}
+.hero-atmosphere[data-preset='hail'] .precipitation-layer {
+  background-size: 55px 70px;
+  animation-duration: 3s;
+}
+.hero-atmosphere[data-preset='freezing'] .precipitation-layer {
+  background-image: repeating-linear-gradient(
+    108deg,
+    transparent 0 24px,
+    var(--sky-snow) 25px 27px,
+    transparent 28px 65px
+  );
+}
+.sky-readability {
+  z-index: 5;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    var(--color-paper) 0%,
+    color-mix(in srgb, var(--color-paper) 94%, transparent) 35%,
+    transparent 80%
+  );
+}
+.hero-weather {
+  grid-column: 1 / -1;
+  min-height: 54px;
+  margin-bottom: 18px;
+  display: flex;
+  gap: 6px;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.hero-weather button {
+  border: 0;
+  background: var(--color-paper);
+  padding: 5px 0;
+  font-size: 11px;
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.hero-weather > span {
+  color: var(--color-muted);
+  font-size: 10px;
+}
+.hero-note .orbital-mark {
+  visibility: hidden;
+} /* Reserve the existing composition's space for the celestial body. */
+@keyframes cloud-drift {
+  to {
+    transform: translateX(-25px);
+  }
+}
+@keyframes rain-fall {
+  to {
+    background-position: -25px 75px;
+  }
+}
+@keyframes snow-fall {
+  to {
+    background-position: 35px 110px;
+  }
+}
+@media (max-width: 700px) {
+  .hero-atmosphere {
+    inset-block-start: -190px;
+  }
+  .celestial-body {
+    width: 54px;
+    height: 54px;
+    top: 180px;
+    right: 4%;
+    opacity: 0.65;
+  }
+  .constellation-layer {
+    width: 150%;
+    max-width: none;
+    right: -32%;
+    top: -12%;
+  }
+  .sky-readability {
+    background: linear-gradient(
+      180deg,
+      transparent 0 210px,
+      color-mix(in srgb, var(--color-paper) 94%, transparent) 320px,
+      var(--color-paper) 95%
+    );
+  }
+  .cloud-layer span {
+    top: 218px;
+    width: 65%;
+  }
+  .cloud-layer span:nth-child(2) {
+    top: 140px;
+  }
+  .precipitation-layer {
+    inset-inline-start: 0;
+  }
+  .hero-weather {
+    margin-top: 5px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cloud-layer span,
+  .precipitation-layer {
+    animation: none !important;
+  }
+}

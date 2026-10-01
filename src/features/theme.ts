@@ -13,8 +13,10 @@ export function chooseTheme(theme: Theme) {
   if (theme === 'system') delete document.documentElement.dataset.theme;
   else document.documentElement.dataset.theme = theme;
   try {
-    if (theme === 'system') localStorage.removeItem(themeKey);
-    else localStorage.setItem(themeKey, theme);
+    if (!document.documentElement.dataset.atmospherePreview) {
+      if (theme === 'system') localStorage.removeItem(themeKey);
+      else localStorage.setItem(themeKey, theme);
+    }
   } catch {
     /* Browsing without storage still supports a session override. */
   }
@@ -38,6 +40,7 @@ function subscribe(callback: () => void) {
     callback();
   };
   const storage = (event: StorageEvent) => {
+    if (document.documentElement.dataset.atmospherePreview) return;
     if (event.key !== themeKey && event.key !== null) return;
     if (event.newValue === 'light' || event.newValue === 'dark')
       document.documentElement.dataset.theme = event.newValue;

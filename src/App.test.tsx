@@ -1,7 +1,17 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import App from './App';
+
+vi.mock('./features/weather', async (original) => ({
+  ...(await original<object>()),
+  loadWeather: vi.fn().mockResolvedValue({
+    weather: null,
+    location: { label: 'Chicago' },
+    mood: 'overcast',
+    message: 'Weather unavailable',
+  }),
+}));
 
 describe('Recruiter journeys', () => {
   it('opens navigation and closes it when a destination is selected', async () => {

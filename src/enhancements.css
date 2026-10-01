@@ -265,11 +265,6 @@ kbd {
 .contact-section > .wrap {
   position: relative;
 }
-.contact-greeting {
-  position: absolute;
-  right: 0;
-  top: 0;
-}
 .copy-email {
   display: flex;
   align-items: center;
@@ -490,50 +485,9 @@ kbd {
   text-decoration: underline;
   text-underline-offset: 3px;
 }
-/* Atmosphere is intentionally static and confined to a decorative area. */
 .hero {
   position: relative;
   isolation: isolate;
-}
-.hero::before {
-  content: '';
-  position: absolute;
-  z-index: -1;
-  pointer-events: none;
-  inset: 20px -15px 90px 60%;
-  border-radius: 50%;
-  opacity: 0.45;
-  background: var(--sky-glow, transparent);
-}
-:root[data-atmosphere='sunny'] {
-  --sky-glow: radial-gradient(ellipse, #e0bc6440, transparent 70%);
-}
-:root[data-atmosphere='overcast'] {
-  --sky-glow: radial-gradient(ellipse, #8da3b52b, transparent 70%);
-}
-:root[data-atmosphere='rain'] {
-  --sky-glow: radial-gradient(ellipse, #7497ae38, transparent 70%);
-}
-:root[data-atmosphere='snow'] {
-  --sky-glow: radial-gradient(ellipse, #a5bacd42, transparent 70%);
-}
-:root[data-atmosphere='storm'] {
-  --sky-glow: radial-gradient(ellipse, #74618140, transparent 70%);
-}
-:root[data-atmosphere='cloudy-night'] {
-  --sky-glow: radial-gradient(ellipse, #71879625, transparent 70%);
-}
-:root[data-atmosphere='clear-night'] {
-  --sky-glow:
-    radial-gradient(circle at 35% 20%, #b8abc5 0 1px, transparent 2px),
-    radial-gradient(circle at 80% 35%, #8aafa5 0 1px, transparent 2px),
-    radial-gradient(circle at 55% 70%, #b8abc5 0 1px, transparent 2px),
-    radial-gradient(ellipse, #7b6a9629, transparent 70%);
-}
-@media (prefers-reduced-motion: reduce) {
-  .hero::before {
-    opacity: 0.3;
-  }
 }
 @media (max-width: 1100px) {
   .site-header {

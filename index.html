@@ -13,6 +13,28 @@
       } catch {
         /* Storage may be unavailable; the OS-aware CSS fallback still works. */
       }
+      const query = new URLSearchParams(location.search);
+      const presets = [
+        'clear',
+        'mostly-clear',
+        'partly-cloudy',
+        'overcast',
+        'fog',
+        'drizzle',
+        'rain',
+        'heavy-rain',
+        'snow',
+        'heavy-snow',
+        'storm',
+        'freezing',
+        'hail',
+      ];
+      if (presets.includes(query.get('atmosphere'))) {
+        document.documentElement.dataset.atmospherePreview = 'true';
+        const previewTheme = query.get('theme');
+        if (previewTheme === 'light' || previewTheme === 'dark')
+          document.documentElement.dataset.theme = previewTheme;
+      }
     </script>
     <title>Grace Arnold — Software Engineer</title>
     <meta

@@ -6,6 +6,8 @@ import Engineering from './components/Engineering';
 import CopyEmail from './components/CopyEmail';
 import Illustration from './components/Illustration';
 import SkyEntry from './components/SkyEntry';
+import { AtmosphereProvider } from './features/AtmosphereProvider';
+import HeroAtmosphere, { WeatherStatus } from './components/HeroAtmosphere';
 
 const navigation = [
   ['Work', 'work'],
@@ -43,6 +45,14 @@ function SectionHeading({
 }
 
 export default function App({ base = import.meta.env.BASE_URL }: { base?: string }) {
+  return (
+    <AtmosphereProvider>
+      <Portfolio base={base} />
+    </AtmosphereProvider>
+  );
+}
+
+function Portfolio({ base }: { base: string }) {
   const [menuOpen, setMenuOpen] = useState(false);
   return (
     <>
@@ -85,6 +95,7 @@ export default function App({ base = import.meta.env.BASE_URL }: { base?: string
       </header>
       <main id="main" tabIndex={-1}>
         <section className="hero wrap" aria-labelledby="intro-heading">
+          <HeroAtmosphere />
           <div className="hero-main">
             <p className="eyebrow hero-kicker">
               <span className="status-dot" /> SOFTWARE ENGINEER & CREATIVE THINKER
@@ -125,9 +136,9 @@ export default function App({ base = import.meta.env.BASE_URL }: { base?: string
               Full-stack engineering
               <br />
               Production ownership
-              <br />A teacher’s perspective
             </p>
           </aside>
+          <WeatherStatus />
           <div className="hero-footer">
             <p>
               <span className="small-dot" /> Open to software engineering roles
@@ -356,9 +367,6 @@ export default function App({ base = import.meta.env.BASE_URL }: { base?: string
             <p className="eyebrow">
               <span>04</span> LET’S CONNECT
             </p>
-            <div className="contact-greeting">
-              <Illustration name="skitty-hi" base={base} size={52} />
-            </div>
             <div className="contact-main">
               <div>
                 <h2 id="contact-title">

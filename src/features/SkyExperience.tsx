@@ -1,38 +1,27 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import Illustration from '../components/Illustration';
+import { useTheme } from './theme';
+import { useAtmosphere } from './AtmosphereProvider';
+import { labels } from './atmosphere';
 import { calculateSky, compass } from './astronomy';
-import {
-  chicago,
-  getSkyLocation,
-  loadWeather,
-  requestLocation,
-  setSkyLocation,
-  weatherLabels,
-  type WeatherResult,
-} from './weather';
+import { chicago, requestLocation } from './weather';
 
 export default function SkyExperience({ base }: { base: string }) {
-  const [location, setLocation] = useState(getSkyLocation);
-  const [now, setNow] = useState(() => new Date());
-  const [weather, setWeather] = useState<WeatherResult | null>(null);
+  const {
+    location,
+    selectLocation,
+    now,
+    refresh,
+    result: weather,
+    weather: currentWeather,
+    enabled,
+    setEnabled,
+    preset,
+    preview,
+  } = useAtmosphere();
+  const { resolved } = useTheme();
   const [locating, setLocating] = useState(false);
   const [notice, setNotice] = useState('');
-  const [enabled, setEnabled] = useState(() =>
-    Boolean(document.documentElement.dataset.atmosphere),
-  );
-  useEffect(() => {
-    let current = true;
-    loadWeather(location).then((result) => {
-      if (current) setWeather(result);
-    });
-    return () => {
-      current = false;
-    };
-  }, [location, now]);
-  useEffect(() => {
-    if (enabled && weather) document.documentElement.dataset.atmosphere = weather.mood;
-    else delete document.documentElement.dataset.atmosphere;
-  }, [enabled, weather]);
   const sky = useMemo(() => {
     try {
       return calculateSky(location, now);
@@ -59,24 +48,17 @@ export default function SkyExperience({ base }: { base: string }) {
     setNotice('');
     try {
       const next = await requestLocation();
-      setSkyLocation(next);
-      setLocation(next);
-      setWeather(null);
-      setNow(new Date());
+      selectLocation(next);
     } catch (error) {
       setNotice(error instanceof Error ? error.message : 'Location unavailable. Showing Chicago.');
-      setSkyLocation(chicago);
-      setLocation(chicago);
+      selectLocation(chicago);
     } finally {
       setLocating(false);
     }
   }
   function useChicago() {
-    setSkyLocation(chicago);
-    setLocation(chicago);
+    selectLocation(chicago);
     setNotice('');
-    setWeather(null);
-    setNow(new Date());
   }
   return (
     <div className="sky-experience">
@@ -87,7 +69,11 @@ export default function SkyExperience({ base }: { base: string }) {
             {location.label} <span className="sky-time">· {formatTime(now)}</span>
           </p>
         </div>
-        <Illustration name="sleepy-espeon" base={base} size={64} />
+        <Illustration
+          name={resolved === 'dark' ? 'sleepy-espeon' : 'skitty-hi'}
+          base={base}
+          size={64}
+        />
       </div>
       <div className="location-actions">
         <button type="button" className="quiet-button" disabled={locating} onClick={localSky}>
@@ -98,7 +84,7 @@ export default function SkyExperience({ base }: { base: string }) {
             Use Chicago
           </button>
         )}
-        <button type="button" className="quiet-button" onClick={() => setNow(new Date())}>
+        <button type="button" className="quiet-button" onClick={refresh}>
           Refresh sky
         </button>
       </div>
@@ -107,17 +93,24 @@ export default function SkyExperience({ base }: { base: string }) {
         this tab’s memory.
       </p>
       <p className="sky-status" role="status">
-        {notice || (weather ? weather.message : 'Checking the weather…')}
+        {notice ||
+          (preview
+            ? 'Preview mode: weather is simulated.'
+            : weather
+              ? weather.message
+              : 'Checking the weather…')}
       </p>
       <div className="weather-control">
         <div>
           <p>Atmosphere · {weather?.location.label ?? location.label}</p>
           <span>
-            {weather
-              ? weather.weather
-                ? weatherLabels[weather.mood]
-                : 'Time-of-day fallback'
-              : 'Static while weather loads'}
+            {preview
+              ? `Preview · ${labels[preset]}`
+              : weather
+                ? currentWeather
+                  ? labels[preset]
+                  : 'Time-of-day fallback'
+                : 'Static while weather loads'}
           </span>
         </div>
         <label>
@@ -126,10 +119,14 @@ export default function SkyExperience({ base }: { base: string }) {
             checked={enabled}
             onChange={(event) => setEnabled(event.target.checked)}
           />{' '}
-          Use as background
+          Show atmosphere
         </label>
       </div>
-      <p className="sky-privacy">Adds a quiet hint of the weather around the introduction.</p>
+      <p className="sky-privacy">
+        Chicago’s atmosphere appears automatically. You can hide it for this visit. The decorative
+        Moon follows the theme and current lunar phase; its corner position is composed for the
+        page, not its true sky position.
+      </p>
       {sky ? (
         <>
           <div className="moon-summary">
@@ -212,6 +209,7 @@ export default function SkyExperience({ base }: { base: string }) {
         </p>
       )}
       <div className="sky-credits">
+        <a href="https://ofrohn.github.io/">Constellation data: D3-Celestial</a>
         <a href="https://open-meteo.com/">Weather by Open-Meteo</a>
         <span>·</span>
         <a href="https://github.com/cosinekitty/astronomy">Calculated with Astronomy Engine</a>

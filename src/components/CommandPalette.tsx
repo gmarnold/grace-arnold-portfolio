@@ -28,8 +28,8 @@ export default function CommandPalette({
     ...[
       ['work', 'Selected work'],
       ['experience', 'Experience'],
-      ['about', 'About Grace'],
-      ['contact', 'Contact Grace'],
+      ['about', 'About me'],
+      ['contact', 'Contact me'],
       ['engineering', 'Engineering this site'],
     ].map(([section, label]) => ({ id: section, label, href: `#${section}` })),
     {
