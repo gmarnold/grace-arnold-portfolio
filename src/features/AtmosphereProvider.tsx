@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { useInteractive } from './theme';
 import { chicagoIsDay, normalizeWeatherCondition, parsePreview } from './atmosphere';
+import type { HeroSky } from './heroSky';
 import {
   chicago,
   getSkyLocation,
@@ -17,6 +18,32 @@ function useAtmosphereState() {
   const [enabled, setEnabled] = useState(true);
   const ready = useInteractive();
   const preview = useMemo(() => (ready ? parsePreview(window.location.search) : null), [ready]);
+  const skyNow = useMemo(
+    () => (preview?.skyDate ? new Date(preview.skyDate) : now),
+    [preview, now],
+  );
+  const [skyResult, setSkyResult] = useState<{
+    location: SkyLocation;
+    now: Date;
+    sky: HeroSky;
+  } | null>(null);
+  useEffect(() => {
+    if (!ready) return;
+    let current = true;
+    import('./heroSky')
+      .then(({ calculateHeroSky }) => {
+        const sky = calculateHeroSky(location, skyNow);
+        if (current) setSkyResult({ location, now: skyNow, sky });
+      })
+      .catch(() => {
+        if (current) setSkyResult(null);
+      });
+    return () => {
+      current = false;
+    };
+  }, [location, skyNow, ready]);
+  const heroSky =
+    skyResult?.location === location && skyResult.now === skyNow ? skyResult.sky : null;
   useEffect(() => {
     if (!ready || preview) return;
     let current = true;
@@ -56,7 +83,8 @@ function useAtmosphereState() {
   return {
     location,
     selectLocation,
-    now,
+    now: skyNow,
+    heroSky,
     refresh: () => setNow(new Date()),
     result,
     weather,

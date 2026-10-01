@@ -44,6 +44,40 @@ I project real J2000 constellation star coordinates from a small licensed D3-Cel
 
 I update sky data every 15 minutes while the page is visible and when returning to the tab. The existing Astronomy Engine is reused; the only new data is the local constellation subset, not a new dependency. Core content remains prerendered and usable without JavaScript. If the astronomy chunk fails, the gradient/weather remain available and I omit an unverified Moon rather than invent its phase.
 
+## Celestial legibility and particle QA
+
+Use these exact local production URLs after `npm run build` and `npm run preview`. The fixed `skyDate` makes astronomical projection reproducible. `time` controls atmosphere styling only; it does not change the astronomy clock. `moonPhase` changes the decorative Moon and constellation intensity only; the panel always reports the calculated phase for the displayed date.
+
+- Clear / new moon: <http://127.0.0.1:4173/grace-arnold-portfolio/?atmosphere=clear&theme=dark&time=night&moonPhase=new&skyDate=2026-10-01T04:00:00Z&motion=freeze>
+- Clear / full moon: <http://127.0.0.1:4173/grace-arnold-portfolio/?atmosphere=clear&theme=dark&time=night&moonPhase=full&skyDate=2026-10-01T04:00:00Z&motion=freeze>
+- Overcast / crescent: <http://127.0.0.1:4173/grace-arnold-portfolio/?atmosphere=overcast&theme=dark&time=night&moonPhase=crescent&skyDate=2026-10-01T04:00:00Z&motion=freeze>
+- Overcast / gibbous: <http://127.0.0.1:4173/grace-arnold-portfolio/?atmosphere=overcast&theme=dark&time=night&moonPhase=gibbous&skyDate=2026-10-01T04:00:00Z&motion=freeze>
+- Storm / full moon: <http://127.0.0.1:4173/grace-arnold-portfolio/?atmosphere=storm&theme=dark&time=night&moonPhase=full&skyDate=2026-10-01T04:00:00Z&motion=freeze>
+- Light / cloudy: <http://127.0.0.1:4173/grace-arnold-portfolio/?atmosphere=partly-cloudy&theme=light&time=day&skyDate=2026-10-01T18:00:00Z&motion=freeze>
+
+Inspect the individual precipitation presets in motion:
+
+| Effect                | Local production URL                                                                        |
+| --------------------- | ------------------------------------------------------------------------------------------- |
+| Drizzle               | <http://127.0.0.1:4173/grace-arnold-portfolio/?atmosphere=drizzle&theme=dark&time=night>    |
+| Rain                  | <http://127.0.0.1:4173/grace-arnold-portfolio/?atmosphere=rain&theme=dark&time=night>       |
+| Heavy rain            | <http://127.0.0.1:4173/grace-arnold-portfolio/?atmosphere=heavy-rain&theme=dark&time=night> |
+| Snow                  | <http://127.0.0.1:4173/grace-arnold-portfolio/?atmosphere=snow&theme=dark&time=night>       |
+| Heavy snow            | <http://127.0.0.1:4173/grace-arnold-portfolio/?atmosphere=heavy-snow&theme=dark&time=night> |
+| Sleet / freezing rain | <http://127.0.0.1:4173/grace-arnold-portfolio/?atmosphere=freezing&theme=dark&time=night>   |
+| Hail                  | <http://127.0.0.1:4173/grace-arnold-portfolio/?atmosphere=hail&theme=dark&time=night>       |
+| Storm                 | <http://127.0.0.1:4173/grace-arnold-portfolio/?atmosphere=storm&theme=dark&time=night>      |
+
+Append `&motion=freeze` to pause clouds and particles at deterministic animation offsets, or `&motion=slow` for one-quarter speed. These controls require a valid atmosphere preview, never persist, and never override reduced motion. Invalid dates and controls are ignored. Remove the query to restore live conditions.
+
+The constellation intensity is `max(0.74, 1 − 0.18 × lunar illumination − weather veil)`. The veil is 0 for clear, 0.04 for light weather, and 0.08 for overcast/fog/heavy precipitation/storm. Clear new/full moons therefore yield 100%/82%; storm plus full moon yields 74%. Dark artwork uses pale lavender, 1.25px lines, and a static 2px shadow. Light mode applies a 65% multiplier with a darker ink and no glow. The scene order is gradient → clouds → Sun/Moon → constellations → particles → text-protection overlay. A single constellation SVG is rendered; no duplicated astronomy or full-page glow layer is needed.
+
+Particle generation uses a fixed local integer seed and independently varied positions, negative delays, duration, opacity, dimensions, angle, rotation, and drift. Preset-specific ranges distinguish fine drizzle, fast rain, drifting snow, mixed rain/ice, quick hail, and wind-driven storms. Three interleaved groups provide depth variation without a second scene. Counts range from 22 to 68, animations use transforms, and particles remain contained in the clipped hero. No animation-frame React updates run. Reduced motion leaves the particles at their static distributed starting positions.
+
+The provider loads the hero astronomy once per location/time update and shares the result with the panel. The panel lists planets above the horizon at the hero's current-night/coming-evening time and major catalogued constellations with above-horizon segments, alongside the current Moon phase and existing rise/set/current-position details. Above-horizon position does not promise observational visibility. If astronomy fails, the gradient/weather remain, but the panel omits astronomical facts.
+
+Unit checks cover seeded determinism, numeric validity, parameter ranges, bounded density, every phase/weather intensity floor, and shared astronomy time/projection. Browser checks exercise computed contrast treatment, layer order, repeatable CSS, distinct motion, reduced motion, keyboard focus restoration, failure honesty, theme mark footprints, axe, and responsive overflow. Screenshots are visual review artifacts rather than brittle per-particle pixel assertions.
+
 ## QA and accessibility
 
 I run `npm run check` for types, lint, formatting, unit tests, and production build; then `npm run test:e2e -- --workers=2` for browser checks. `npm run preview` serves the built output. I use the existing Playwright screenshots in ignored `.local/` to review representative weather/theme combinations. I inspect 320, 390, 768, 1440, and 1920px layouts.

@@ -1,9 +1,8 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Illustration from '../components/Illustration';
 import { useTheme } from './theme';
 import { useAtmosphere } from './AtmosphereProvider';
 import { labels } from './atmosphere';
-import { calculateSky, compass } from './astronomy';
 import { chicago, requestLocation } from './weather';
 
 export default function SkyExperience({ base }: { base: string }) {
@@ -18,17 +17,32 @@ export default function SkyExperience({ base }: { base: string }) {
     setEnabled,
     preset,
     preview,
+    heroSky,
   } = useAtmosphere();
   const { resolved } = useTheme();
   const [locating, setLocating] = useState(false);
   const [notice, setNotice] = useState('');
+  const [astronomy, setAstronomy] = useState<typeof import('./astronomy') | null>(null);
+  useEffect(() => {
+    let current = true;
+    import('./astronomy')
+      .then((module) => {
+        if (current) setAstronomy(module);
+      })
+      .catch(() => {
+        if (current) setAstronomy(null);
+      });
+    return () => {
+      current = false;
+    };
+  }, []);
   const sky = useMemo(() => {
     try {
-      return calculateSky(location, now);
+      return heroSky && astronomy ? astronomy.calculateSky(location, now, heroSky) : null;
     } catch {
       return null;
     }
-  }, [location, now]);
+  }, [location, now, heroSky, astronomy]);
   const timezone =
     weather?.weather && weather.location === location
       ? weather.weather.timezone
@@ -129,6 +143,43 @@ export default function SkyExperience({ base }: { base: string }) {
       </p>
       {sky ? (
         <>
+          <h3 className="sky-subheading">Tonight over {location.label}</h3>
+          <p className="sky-privacy">
+            {sky.tonight.time === now.toISOString()
+              ? 'Current night sky'
+              : 'Coming evening, 30 minutes after civil twilight'}
+            {' · '}
+            {formatTime(new Date(sky.tonight.time))}
+            {preview
+              ? ' · Preview date/visuals; positions below are calculated, not weather overrides.'
+              : ''}
+          </p>
+          <h4>Planets above the horizon at that time</h4>
+          {sky.tonight.planets.length ? (
+            <ul className="sky-objects">
+              {sky.tonight.planets.map((planet) => (
+                <li key={planet.name}>
+                  <strong>{planet.name}</strong>
+                  <span>
+                    {Math.round(planet.altitude)}° up · {astronomy?.compass(planet.azimuth)}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="feature-message">
+              None of the five tracked planets are above the horizon at this time.
+            </p>
+          )}
+          <h4>Constellations in the hero</h4>
+          <p>
+            {sky.tonight.constellations.map((entry) => entry.name).join(' · ') ||
+              'No catalogued constellation segments above the horizon.'}
+          </p>
+          <p className="sky-privacy">
+            Selected major constellations with above-horizon line segments; some may be partly above
+            the horizon. The hero crops and fades this field for composition.
+          </p>
           <div className="moon-summary">
             <span aria-hidden="true">☾</span>
             <div>
@@ -186,7 +237,7 @@ export default function SkyExperience({ base }: { base: string }) {
                 <li key={object.name}>
                   <strong>{object.name}</strong>
                   <span>
-                    {Math.round(object.altitude)}° up · {compass(object.azimuth)}
+                    {Math.round(object.altitude)}° up · {astronomy?.compass(object.azimuth)}
                   </span>
                 </li>
               ))}

@@ -25,11 +25,11 @@ test('all six original illustrations appear as small decorative WebP assets', as
   await loaded(page.locator('.illustration-toggers'));
   await page.getByRole('button', { name: 'Quick links' }).click();
   await loaded(page.locator('.illustration-calyrex-gamer'));
-  await loaded(page.locator('.illustration-sleepy-espeon'));
+  await loaded(page.locator('.night-note .illustration-sleepy-espeon'));
   await page.keyboard.press('Escape');
   await page.getByRole('combobox', { name: 'Color theme' }).selectOption('light');
   await page.getByRole('button', { name: 'Quick links' }).click();
-  await loaded(page.locator('.illustration-skitty-hi'));
+  await loaded(page.locator('.night-note .illustration-skitty-hi'));
   await page.screenshot({ path: `.local/${testInfo.project.name}-artwork-palette.png` });
   for (const image of await page.locator('.illustration').all()) {
     await expect(image).toHaveAttribute('src', /\.webp$/);

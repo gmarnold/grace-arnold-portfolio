@@ -1,28 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useMemo, type CSSProperties } from 'react';
 import { useAtmosphere } from '../features/AtmosphereProvider';
-import { labels, moonShape } from '../features/atmosphere';
+import { constellationIntensity, labels, moonShape } from '../features/atmosphere';
 import { useTheme } from '../features/theme';
-import type { HeroSky } from '../features/heroSky';
+import { generateParticles } from '../features/precipitation';
 
 export default function HeroAtmosphere() {
-  const { location, now, preset, isDay, enabled, preview, ready } = useAtmosphere();
+  const { heroSky: sky, preset, isDay, enabled, preview, ready } = useAtmosphere();
   const { resolved } = useTheme();
-  const [sky, setSky] = useState<HeroSky | null>(null);
-  useEffect(() => {
-    let current = true;
-    // Separate chunk: content and weather remain usable if astronomy cannot load.
-    import('../features/heroSky')
-      .then(({ calculateHeroSky }) => {
-        const next = calculateHeroSky(location, now);
-        if (current) setSky(next);
-      })
-      .catch(() => {
-        if (current) setSky(null);
-      });
-    return () => {
-      current = false;
-    };
-  }, [location, now]);
+  const particles = useMemo(() => generateParticles(preset), [preset]);
   const angle = preview?.moonPhase ?? sky?.phase;
   const moon = angle == null ? null : moonShape(angle);
   return (
@@ -34,6 +19,10 @@ export default function HeroAtmosphere() {
       data-time={ready ? (isDay ? 'day' : 'night') : 'day'}
       data-resolved-theme={resolved}
       data-preview={Boolean(preview)}
+      data-motion={preview?.motion ?? undefined}
+      style={
+        { '--constellation-intensity': constellationIntensity(angle, preset) } as CSSProperties
+      }
     >
       <div className="sky-gradient" />
       {sky && (
@@ -82,7 +71,30 @@ export default function HeroAtmosphere() {
         <span />
         <span />
       </div>
-      <div className="precipitation-layer" />
+      <div className="precipitation-layer">
+        {particles.map((particle, index) => (
+          <span
+            key={index}
+            className={`weather-particle particle-${particle.kind}`}
+            data-depth={particle.depth}
+            style={
+              {
+                left: `${particle.x}%`,
+                top: `${particle.y}%`,
+                width: `${particle.width}px`,
+                height: `${particle.length}px`,
+                opacity: particle.opacity,
+                '--duration': `${particle.duration}s`,
+                '--delay': `${particle.delay}s`,
+                '--drift': `${particle.drift}px`,
+                '--sway': `${particle.sway}px`,
+                '--angle': `${particle.angle}deg`,
+                '--rotation': `${particle.rotation}deg`,
+              } as CSSProperties
+            }
+          />
+        ))}
+      </div>
       <div className="sky-readability" />
     </div>
   );

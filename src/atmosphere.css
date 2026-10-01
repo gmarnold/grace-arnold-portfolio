@@ -11,7 +11,7 @@
 }
 :root[data-theme='dark'] {
   --sky-top: #53445f;
-  --sky-star: #21152f;
+  --sky-star: #e3d6ef;
   --sky-cloud: #80748d;
   --sky-rain: #c3bed8;
   --sky-snow: #e0d9ea;
@@ -19,7 +19,7 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
     --sky-top: #53445f;
-    --sky-star: #21152f;
+    --sky-star: #e3d6ef;
     --sky-cloud: #80748d;
     --sky-rain: #c3bed8;
     --sky-snow: #e0d9ea;
@@ -48,21 +48,23 @@
   background: linear-gradient(var(--sky-top), var(--color-paper) 94%);
 }
 .constellation-layer {
-  z-index: 1;
+  z-index: 3;
   width: min(1300px, 100%);
   height: 100%;
   right: -5%;
   top: -5%;
   fill: var(--sky-star);
   stroke: var(--sky-star);
-  stroke-width: 0.8;
-  opacity: 0.66;
+  stroke-width: 1.25;
+  opacity: var(--constellation-intensity, 0.82);
+  filter: drop-shadow(0 0 2px color-mix(in srgb, var(--sky-star) 45%, transparent));
 }
 .constellation-layer circle {
   stroke: none;
 }
-.hero-atmosphere[data-time='day'] .constellation-layer {
-  opacity: 0.2;
+.hero-atmosphere[data-resolved-theme='light'] .constellation-layer {
+  opacity: calc(var(--constellation-intensity, 0.82) * 0.65);
+  filter: none;
 }
 .celestial-body {
   z-index: 2;
@@ -100,7 +102,7 @@
   opacity: 0.45;
 }
 .cloud-layer {
-  z-index: 3;
+  z-index: 1;
   inset: 0;
   opacity: 0;
 }
@@ -155,16 +157,6 @@
   .cloud-layer {
   opacity: 0.95;
 }
-.hero-atmosphere:is(
-    [data-preset='overcast'],
-    [data-preset='heavy-rain'],
-    [data-preset='storm'],
-    [data-preset='hail'],
-    [data-preset='fog']
-  )
-  .constellation-layer {
-  opacity: 0.07;
-}
 .hero-atmosphere[data-preset='fog'] .cloud-layer {
   opacity: 0.65;
   filter: blur(24px);
@@ -179,61 +171,75 @@
 .precipitation-layer {
   z-index: 4;
   inset: 150px 0 0 35%;
-  opacity: 0;
+  overflow: hidden;
+  contain: layout paint;
 }
-.hero-atmosphere:is(
-    [data-preset='drizzle'],
-    [data-preset='rain'],
-    [data-preset='heavy-rain'],
-    [data-preset='storm'],
-    [data-preset='freezing'],
-    [data-preset='hail']
-  )
-  .precipitation-layer {
-  opacity: 0.27;
-  background-image: repeating-linear-gradient(
-    108deg,
-    transparent 0 24px,
-    var(--sky-rain) 25px 26px,
-    transparent 27px 58px
-  );
-  background-size: 80px 75px;
-  mask-image: repeating-linear-gradient(transparent 0 15px, #000 18px 32px, transparent 36px 75px);
-  animation: rain-fall 1.8s linear infinite;
+.weather-particle {
+  position: absolute;
+  border-radius: 2px;
+  background: var(--sky-rain);
+  animation: particle-fall var(--duration) linear var(--delay) infinite;
+  transform: rotate(var(--angle));
 }
-.hero-atmosphere[data-preset='drizzle'] .precipitation-layer {
-  opacity: 0.12;
-  background-size: 160px 110px;
+.particle-snow {
+  background: var(--sky-snow);
+  border-radius: 50%;
+  animation-name: flurry-fall;
 }
-.hero-atmosphere:is([data-preset='heavy-rain'], [data-preset='storm']) .precipitation-layer {
-  opacity: 0.4;
-  background-size: 48px 55px;
+.particle-ice {
+  background: var(--sky-snow);
+  animation-name: ice-fall;
 }
-.hero-atmosphere:is([data-preset='snow'], [data-preset='heavy-snow'], [data-preset='hail'])
-  .precipitation-layer {
-  opacity: 0.65;
-  background-image:
-    radial-gradient(circle at 15px 20px, var(--sky-snow) 0 2px, transparent 3px),
-    radial-gradient(circle at 58px 67px, var(--sky-snow) 0 1px, transparent 2px);
-  background-size: 100px 110px;
-  mask-image: none;
-  animation: snow-fall 16s linear infinite;
+.particle-hail {
+  background: var(--sky-snow);
+  border-radius: 35%;
+  animation-name: ice-fall;
 }
-.hero-atmosphere[data-preset='heavy-snow'] .precipitation-layer {
-  background-size: 60px 65px;
-  opacity: 0.85;
+.hero-atmosphere[data-motion='slow'] .weather-particle {
+  animation-duration: calc(var(--duration) * 4);
 }
-.hero-atmosphere[data-preset='hail'] .precipitation-layer {
-  background-size: 55px 70px;
-  animation-duration: 3s;
+.hero-atmosphere[data-motion='slow'] .cloud-layer span {
+  animation-duration: 120s;
 }
-.hero-atmosphere[data-preset='freezing'] .precipitation-layer {
-  background-image: repeating-linear-gradient(
-    108deg,
-    transparent 0 24px,
-    var(--sky-snow) 25px 27px,
-    transparent 28px 65px
-  );
+.hero-atmosphere[data-motion='freeze'] .weather-particle,
+.hero-atmosphere[data-motion='freeze'] .cloud-layer span {
+  animation-play-state: paused;
+}
+@keyframes particle-fall {
+  from {
+    transform: translate(calc(var(--drift) * -0.5), -650px) rotate(var(--angle));
+  }
+  to {
+    transform: translate(var(--drift), 650px) rotate(var(--angle));
+  }
+}
+@keyframes flurry-fall {
+  0% {
+    transform: translate(0, -650px) rotate(var(--angle));
+  }
+  30% {
+    transform: translate(calc(var(--drift) * 0.3 + var(--sway)), -260px) rotate(var(--rotation));
+  }
+  65% {
+    transform: translate(calc(var(--drift) * 0.65 - var(--sway)), 195px) rotate(var(--angle));
+  }
+  100% {
+    transform: translate(var(--drift), 650px) rotate(var(--rotation));
+  }
+}
+@keyframes ice-fall {
+  0% {
+    transform: translate(0, -650px) rotate(var(--angle));
+  }
+  45% {
+    transform: translate(calc(var(--drift) * 0.6), -65px) rotate(var(--rotation));
+  }
+  52% {
+    transform: translate(calc(var(--drift) * 0.4), 26px) rotate(var(--angle));
+  }
+  100% {
+    transform: translate(var(--drift), 650px) rotate(var(--rotation));
+  }
 }
 .sky-readability {
   z-index: 5;
@@ -326,6 +332,7 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .cloud-layer span,
+  .weather-particle,
   .precipitation-layer {
     animation: none !important;
   }

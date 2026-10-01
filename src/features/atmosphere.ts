@@ -64,6 +64,15 @@ export function normalizeWeatherCondition(code: number): WeatherPreset {
   return codes[code] ?? 'overcast';
 }
 export const moonOverrides = { new: 0, crescent: 45, quarter: 90, gibbous: 135, full: 180 };
+export function constellationIntensity(angle: number | null | undefined, preset: WeatherPreset) {
+  const illumination = angle == null || !Number.isFinite(angle) ? 0.5 : moonShape(angle).fraction;
+  const veil = ['overcast', 'fog', 'storm', 'hail', 'heavy-rain', 'heavy-snow'].includes(preset)
+    ? 0.08
+    : preset === 'clear'
+      ? 0
+      : 0.04;
+  return Math.max(0.74, 1 - illumination * 0.18 - veil);
+}
 export function parsePreview(search: string) {
   const params = new URLSearchParams(search);
   const preset = params.get('atmosphere');
@@ -71,10 +80,18 @@ export function parsePreview(search: string) {
   const time = params.get('time');
   const theme = params.get('theme');
   const moon = params.get('moonPhase');
+  const date = params.get('skyDate');
   return {
     preset: preset as WeatherPreset,
     isDay: time !== 'night',
     theme: theme === 'dark' || theme === 'light' ? theme : null,
+    skyDate: date && Number.isFinite(Date.parse(date)) ? new Date(date).toISOString() : null,
+    motion:
+      params.get('motion') === 'freeze'
+        ? 'freeze'
+        : params.get('motion') === 'slow'
+          ? 'slow'
+          : null,
     moonPhase:
       moon && Object.hasOwn(moonOverrides, moon)
         ? moonOverrides[moon as keyof typeof moonOverrides]

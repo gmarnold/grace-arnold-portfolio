@@ -157,7 +157,7 @@ test('weather and geolocation failures preserve a usable portfolio and sky calcu
   const dialog = page.getByRole('dialog');
   await expect(dialog.getByText('Time-of-day fallback', { exact: true })).toBeVisible();
   await dialog.getByRole('button', { name: 'Use my local sky' }).click();
-  await expect(dialog.getByRole('status')).toContainText('permission was declined');
+  await expect(dialog.locator('.sky-status')).toContainText('permission was declined');
   await expect(dialog.getByText('Next sunrise', { exact: true })).toBeVisible();
   await page.keyboard.press('Escape');
   await page.getByRole('link', { name: 'Explore my work' }).click();

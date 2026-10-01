@@ -51,12 +51,16 @@ describe('temporary preview', () => {
       preset: 'rain',
       isDay: false,
       theme: 'dark',
+      skyDate: null,
+      motion: null,
       moonPhase: 90,
     });
     expect(parsePreview('?atmosphere=snow&time=bad&theme=bad&moonPhase=bad')).toEqual({
       preset: 'snow',
       isDay: true,
       theme: null,
+      skyDate: null,
+      motion: null,
       moonPhase: null,
     });
   });

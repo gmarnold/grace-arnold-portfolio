@@ -41,7 +41,7 @@ test('every preset supports Sun/day and Moon/night without a weather request or 
             '.sky-readability',
           ].map((selector) => Number(getComputedStyle(el.querySelector(selector)!).zIndex)),
         );
-      expect(layers).toEqual([0, 2, 3, 4, 5]);
+      expect(layers).toEqual([0, 2, 1, 4, 5]);
       if (preset === 'clear') await expect(page.locator('.cloud-layer')).toHaveCSS('opacity', '0');
       else
         expect(

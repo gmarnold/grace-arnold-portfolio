@@ -5,6 +5,7 @@ import SiteTools from './components/SiteTools';
 import Engineering from './components/Engineering';
 import CopyEmail from './components/CopyEmail';
 import Illustration from './components/Illustration';
+import BrandMark from './components/BrandMark';
 import SkyEntry from './components/SkyEntry';
 import { AtmosphereProvider } from './features/AtmosphereProvider';
 import HeroAtmosphere, { WeatherStatus } from './components/HeroAtmosphere';
@@ -61,7 +62,8 @@ function Portfolio({ base }: { base: string }) {
       </a>
       <header className="site-header wrap">
         <a href="#" className="wordmark" aria-label="Grace Arnold, home">
-          grace arnold<span aria-hidden="true">✳</span>
+          grace arnold
+          <BrandMark base={base} />
         </a>
         <button
           className="menu-toggle"
@@ -101,9 +103,9 @@ function Portfolio({ base }: { base: string }) {
               <span className="status-dot" /> SOFTWARE ENGINEER & CREATIVE THINKER
             </p>
             <h1 id="intro-heading">
-              Thoughtful software.
+              You had me at
               <br />
-              <em>From idea to everyday.</em>
+              <em>Hello World.</em>
             </h1>
             <p className="hero-description">
               Hi, I’m Grace. I build useful interfaces and the services behind them—and stay with
@@ -127,11 +129,6 @@ function Portfolio({ base }: { base: string }) {
                 g<span className="orbit-star">✳</span>
               </span>
             </div>
-            <p className="note-title">
-              Built with care.
-              <br />
-              Made for people.
-            </p>
             <p>
               Full-stack engineering
               <br />
@@ -145,7 +142,7 @@ function Portfolio({ base }: { base: string }) {
             </p>
             <p>Remote · Chicago · St. Louis</p>
             <a href="#work" aria-label="Scroll to selected work">
-              SCROLL TO EXPLORE <span aria-hidden="true">↓</span>
+              Do you want the house tour? <span aria-hidden="true">↓</span>
             </a>
           </div>
         </section>
@@ -411,7 +408,8 @@ function Portfolio({ base }: { base: string }) {
       </main>
       <footer className="site-footer wrap">
         <a className="wordmark" href="#">
-          grace arnold<span aria-hidden="true">✳</span>
+          grace arnold
+          <BrandMark base={base} />
         </a>
         <p>Thoughtfully built with React & TypeScript.</p>
         <a href="#">

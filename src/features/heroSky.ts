@@ -11,7 +11,7 @@ import {
   Spherical,
   SearchAltitude,
 } from 'astronomy-engine';
-import catalog from './constellations.json';
+import catalog from './constellations.json' with { type: 'json' };
 import type { SkyLocation } from './weather';
 
 export function calculateHeroSky(location: SkyLocation, now: Date) {
