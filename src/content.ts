@@ -25,7 +25,7 @@ export const projects: CaseStudy[] = [
     title: 'Everyday tools. End-to-end ownership.',
     summary:
       'Calendar and Chat features that helped 1,000+ franchise managers coordinate their work. I owned delivery from requirements through rollout and production support.',
-    stack: ['TypeScript', 'Vue.js', 'Node.js', 'AWS'],
+    stack: ['TypeScript', 'JavaScript', 'Vue.js', 'Node.js', 'AWS'],
     role: 'Feature owner within a cross-functional product team · 2023–2026',
     sections: [
       {

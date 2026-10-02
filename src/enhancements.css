@@ -244,24 +244,6 @@ kbd {
   font-size: 14px;
   margin-bottom: 10px;
 }
-.ownership-aside {
-  font-size: 12px;
-  margin-top: 25px;
-  max-width: 600px;
-  color: var(--color-muted);
-}
-.ownership-aside summary {
-  width: fit-content;
-  padding: 12px 0;
-}
-.ownership-aside > div {
-  display: flex;
-  gap: 20px;
-  align-items: center;
-}
-.ownership-aside p {
-  line-height: 1.9;
-}
 .contact-section > .wrap {
   position: relative;
 }
@@ -543,11 +525,10 @@ kbd {
     line-height: 1.8;
   }
 }
-.wordmark > .brand-mark {
+.brand-mark {
   display: inline-grid;
   width: 32px;
   height: 32px;
-  margin-left: 8px;
   vertical-align: middle;
   pointer-events: none;
 }

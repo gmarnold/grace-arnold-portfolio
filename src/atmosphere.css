@@ -48,7 +48,7 @@
   background: linear-gradient(var(--sky-top), var(--color-paper) 94%);
 }
 .constellation-layer {
-  z-index: 3;
+  z-index: 2;
   width: min(1300px, 100%);
   height: 100%;
   right: -5%;
@@ -67,12 +67,12 @@
   filter: none;
 }
 .celestial-body {
-  z-index: 2;
+  z-index: 3;
   width: clamp(110px, 15vw, 195px);
   height: clamp(110px, 15vw, 195px);
   top: 175px;
   right: max(5%, calc((100vw - 1200px) / 2));
-  opacity: 0.84;
+  opacity: 1;
 }
 .celestial-body svg {
   width: 100%;
@@ -273,9 +273,6 @@
   color: var(--color-muted);
   font-size: 10px;
 }
-.hero-note .orbital-mark {
-  visibility: hidden;
-} /* Reserve the existing composition's space for the celestial body. */
 @keyframes cloud-drift {
   to {
     transform: translateX(-25px);
@@ -300,7 +297,7 @@
     height: 54px;
     top: 180px;
     right: 4%;
-    opacity: 0.65;
+    opacity: 1;
   }
   .constellation-layer {
     width: 150%;

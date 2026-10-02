@@ -13,7 +13,7 @@ import HeroAtmosphere, { WeatherStatus } from './components/HeroAtmosphere';
 const navigation = [
   ['Work', 'work'],
   ['Experience', 'experience'],
-  ['About', 'about'],
+  ['Education', 'about'],
   ['Contact', 'contact'],
 ] as const;
 
@@ -22,23 +22,25 @@ function Arrow() {
 }
 
 function SectionHeading({
-  number,
-  label,
+  id,
   title,
+  mascot,
+  base,
   children,
 }: {
-  number: string;
-  label: string;
+  id: string;
   title: string;
+  mascot: React.ComponentProps<typeof Illustration>['name'];
+  base: string;
   children?: React.ReactNode;
 }) {
   return (
     <div className="section-heading">
-      <p className="eyebrow">
-        <span>{number}</span> {label}
-      </p>
       <div className="section-heading-line">
-        <h2>{title}</h2>
+        <div className="section-identity">
+          <Illustration name={mascot} base={base} size={64} />
+          <h2 id={id}>{title}</h2>
+        </div>
         {children}
       </div>
     </div>
@@ -100,7 +102,7 @@ function Portfolio({ base }: { base: string }) {
           <HeroAtmosphere />
           <div className="hero-main">
             <p className="eyebrow hero-kicker">
-              <span className="status-dot" /> SOFTWARE ENGINEER & CREATIVE THINKER
+              <span className="status-dot" /> FULL-STACK SOFTWARE ENGINEER
             </p>
             <h1 id="intro-heading">
               You had me at
@@ -120,21 +122,6 @@ function Portfolio({ base }: { base: string }) {
               </a>
             </div>
           </div>
-          <aside className="hero-note" aria-label="At a glance">
-            <div className="orbital-mark" aria-hidden="true">
-              <div className="orbit orbit-one" />
-              <div className="orbit orbit-two" />
-              <div className="orbit orbit-three" />
-              <span>
-                g<span className="orbit-star">✳</span>
-              </span>
-            </div>
-            <p>
-              Full-stack engineering
-              <br />
-              Production ownership
-            </p>
-          </aside>
           <WeatherStatus />
           <div className="hero-footer">
             <p>
@@ -163,18 +150,11 @@ function Portfolio({ base }: { base: string }) {
 
         <section id="work" className="section wrap" aria-labelledby="work-title">
           <SectionHeading
-            number="01"
-            label="SELECTED WORK"
-            title="Practical problems. Personal craft."
-          >
-            <p>
-              Production experience, creative exploration,
-              <br className="desktop-break" /> and the decisions behind the work.
-            </p>
-          </SectionHeading>
-          <div id="work-title" className="sr-only">
-            Selected work
-          </div>
+            id="work-title"
+            title="SELECTED WORK"
+            mascot="calyrex-gamer"
+            base={base}
+          />
           <article className="project production-project">
             <div className="project-copy">
               <p className="eyebrow">{projects[0].category}</p>
@@ -190,7 +170,6 @@ function Portfolio({ base }: { base: string }) {
             <div className="production-visual" aria-label="Scope of production ownership">
               <div className="visual-top">
                 <span>FROM FIRST QUESTION</span>
-                <span aria-hidden="true">↘</span>
               </div>
               <div className="ownership-type">
                 Build.
@@ -266,14 +245,16 @@ function Portfolio({ base }: { base: string }) {
           aria-labelledby="experience-title"
         >
           <div className="wrap">
-            <SectionHeading number="02" label="EXPERIENCE" title="A foundation in doing the work.">
+            <SectionHeading
+              id="experience-title"
+              title="EXPERIENCE"
+              mascot="eldegirlboss"
+              base={base}
+            >
               <a className="text-link" href={`${base}grace-arnold-resume.pdf`} download>
                 Download résumé <span aria-hidden="true">↓</span>
               </a>
             </SectionHeading>
-            <div id="experience-title" className="sr-only">
-              Professional experience
-            </div>
             <div className="experience-list">
               {experience.map((job, index) => (
                 <article className="experience-row" key={job.company}>
@@ -299,49 +280,22 @@ function Portfolio({ base }: { base: string }) {
                 </div>
               ))}
             </div>
-            <details className="ownership-aside">
-              <summary>A note on ownership</summary>
-              <div>
-                <p>
-                  For me, ownership includes the follow-through: supporting a release, explaining a
-                  decision, and helping the next engineer find their way.
-                </p>
-                <Illustration name="eldegirlboss" base={base} size={68} />
-              </div>
-            </details>
           </div>
         </section>
 
-        <section id="about" className="section wrap about-section" aria-labelledby="about-title">
-          <div>
-            <p className="eyebrow">
-              <span>03</span> A LITTLE ABOUT ME
-            </p>
-            <h2 id="about-title">
-              Curiosity is a good
-              <br />
-              <em>place to start.</em>
-            </h2>
-            <div className="about-flower" aria-hidden="true">
-              ✳
-            </div>
-          </div>
-          <div className="about-copy">
-            <p className="about-lead">
-              I like making complicated things easier to use—and easier to understand.
-            </p>
-            <p>
-              That’s taken me from customer-facing software to research workflows, programming labs,
-              and a small game about an astronaut collecting cake. I’m drawn to useful products and
-              the care it takes to make them work well.
-            </p>
-            <p>
-              I’m interested in teams working across education, healthcare, research, and creative
-              technology, as well as other places where thoughtful engineering can make someone’s
-              day better.
-            </p>
+        <section
+          id="about"
+          className="section wrap education-section"
+          aria-labelledby="education-title"
+        >
+          <SectionHeading
+            id="education-title"
+            title="EDUCATION"
+            mascot="muscle-milcery"
+            base={base}
+          />
+          <div className="education-layout">
             <div className="education">
-              <p className="eyebrow">EDUCATION & SHARING WHAT I KNOW</p>
               <h3>M.S. & B.S. in Computer Science</h3>
               <p>Illinois Institute of Technology · May 2022</p>
               <ul>
@@ -356,21 +310,30 @@ function Portfolio({ base }: { base: string }) {
                 <li>Mentored three software engineering interns at QSRSoft.</li>
               </ul>
             </div>
+            <div className="about-copy">
+              <h3>A little about me</h3>
+              <p className="about-lead">
+                I like making complicated things easier to use—and easier to understand.
+              </p>
+              <p>
+                That’s taken me from customer-facing software to research workflows, programming
+                labs, and a small game about an astronaut collecting cake. I’m drawn to useful
+                products and the care it takes to make them work well.
+              </p>
+              <p>
+                I’m interested in teams working across education, healthcare, research, and creative
+                technology, as well as other places where thoughtful engineering can make someone’s
+                day better.
+              </p>
+            </div>
           </div>
         </section>
 
         <section id="contact" className="contact-section" aria-labelledby="contact-title">
           <div className="wrap">
-            <p className="eyebrow">
-              <span>04</span> LET’S CONNECT
-            </p>
+            <SectionHeading id="contact-title" title="LET’S CONNECT" mascot="toggers" base={base} />
             <div className="contact-main">
               <div>
-                <h2 id="contact-title">
-                  Something useful
-                  <br />
-                  <em>starts with a conversation.</em>
-                </h2>
                 <p>
                   I’m open to remote software engineering and full-stack roles,
                   <br className="desktop-break" /> with Chicago and St. Louis opportunities welcome,
@@ -390,7 +353,10 @@ function Portfolio({ base }: { base: string }) {
             </a>
             <CopyEmail base={base} />
             <div className="contact-bottom">
-              <span>Say hello. I’d love to hear what you’re building.</span>
+              <span className="contact-signature">
+                <BrandMark base={base} />
+                Say hello. I’d love to hear what you’re building.
+              </span>
               <div>
                 <a href={profile.github}>
                   GitHub <Arrow />

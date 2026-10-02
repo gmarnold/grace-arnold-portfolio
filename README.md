@@ -42,11 +42,11 @@ I’m a software engineer with full-stack production ownership, a research backg
 
 ## Atmosphere and resilience
 
-I use Open-Meteo WMO codes to select 13 distinct weather treatments: clear, mainly clear, partly cloudy, overcast, fog, drizzle, rain, heavy rain, snow, heavy snow, storm, freezing precipitation, and hail. Clouds sit behind the Sun/Moon and constellation artwork; bounded intensity changes keep the sky legible through every weather preset. Weather and exact sky data enhance the page without blocking my experience, projects, or contact details.
+I use Open-Meteo WMO codes to select 13 distinct weather treatments: clear, mainly clear, partly cloudy, overcast, fog, drizzle, rain, heavy rain, snow, heavy snow, storm, freezing precipitation, and hail. Clouds sit behind the constellation artwork and opaque Sun/Moon disks; bounded intensity changes keep the sky legible through every weather preset. Weather and exact sky data enhance the page without blocking my experience, projects, or contact details.
 
 I keep motion restrained: slow clouds, seeded CSS rain, snow, and ice particles, no moving constellations, and no storm flashes. Reduced-motion preferences stop all atmospheric animation. I use SVG/CSS rather than a particle or 3D framework, and reused the existing astronomy dependency. No new runtime dependency was needed.
 
-I document deterministic weather, theme, and Moon-phase preview links in [Atmosphere preview](docs/ATMOSPHERE_PREVIEW.md). Preview values never persist or masquerade as current weather. My [maintenance notes](docs/MAINTENANCE.md) cover the test/build commands.
+I document deterministic weather, theme, and Moon-phase preview links in [Atmosphere preview](docs/ATMOSPHERE_PREVIEW.md). Preview values never persist or masquerade as current weather. I run `npm run check` for type, lint, formatting, unit, and production-build checks, then `npm run test:e2e -- --workers=2` for browser verification.
 
 ## Quality and delivery
 

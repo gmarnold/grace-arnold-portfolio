@@ -7,3 +7,7 @@ playwright-report/
 coverage/
 *.local
 .env*
+
+# Local review reports and maintenance notes
+docs/*REPORT*.md
+docs/MAINTENANCE.md

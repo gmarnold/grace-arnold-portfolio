@@ -28,7 +28,7 @@ export default function CommandPalette({
     ...[
       ['work', 'Selected work'],
       ['experience', 'Experience'],
-      ['about', 'About me'],
+      ['about', 'Education & about me'],
       ['contact', 'Contact me'],
       ['engineering', 'Engineering this site'],
     ].map(([section, label]) => ({ id: section, label, href: `#${section}` })),

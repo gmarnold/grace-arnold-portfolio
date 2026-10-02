@@ -50,7 +50,7 @@
 - Added OS-aware System/Light/Dark themes, a searchable keyboard command palette, and an expanded engineering case study while preserving prerendered core content.
 - Added an optional, lazy-loaded sky panel with local astronomy calculations, cached Open-Meteo weather, explicit location permission, and graceful failure states. This initial iteration used opt-in atmospheric styling; the subsequent polish pass enables it automatically. AWS remains deferred.
 - Integrated all six supplied original illustrations as small decorative WebP assets. The Calyrex source is gamerrex.gif; its displayed derivative is a still frame.
-- Rewrote README.md for recruiters, covering the stack, architecture, product decisions, and verification. Setup and maintenance instructions moved to docs/MAINTENANCE.md.
+- Rewrote README.md for recruiters, covering the stack, architecture, product decisions, and verification.
 - Coverage now includes 13 unit tests and 30 desktop/mobile browser tests, including themes, keyboard focus, accessibility, optional-feature failures, and all six artwork placements.
 
 ## Atmosphere polish

@@ -33,6 +33,10 @@ test('constellations retain contrast and their floor through bright moons and we
     expect(styles.z).toBeGreaterThan(
       Number(await page.locator('.cloud-layer').evaluate((el) => getComputedStyle(el).zIndex)),
     );
+    expect(styles.z).toBeLessThan(
+      Number(await page.locator('.celestial-body').evaluate((el) => getComputedStyle(el).zIndex)),
+    );
+    await expect(page.locator('.celestial-body')).toHaveCSS('opacity', '1');
     await page.screenshot({
       path: `.local/celestial-${info.project.name}-${weather}-${phase}.png`,
     });
@@ -115,14 +119,14 @@ test('astronomy failure retains atmosphere without inventing panel facts', async
   await expect(page).toHaveURL(/#work$/);
 });
 
-test('header/footer signatures follow system theme with identical decorative footprints', async ({
+test('header/contact/footer signatures follow system theme with identical decorative footprints', async ({
   page,
 }) => {
   await page.goto('./?atmosphere=clear');
   await page.getByLabel('Color theme').selectOption('system');
   await page.emulateMedia({ colorScheme: 'light' });
   const marks = page.locator('.brand-mark');
-  await expect(marks).toHaveCount(2);
+  await expect(marks).toHaveCount(3);
   const boxes = await Promise.all((await marks.all()).map((mark) => mark.boundingBox()));
   await expect(marks.first().locator('.brand-light')).toBeVisible();
   await page.emulateMedia({ colorScheme: 'dark' });
