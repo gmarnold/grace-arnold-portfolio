@@ -1,5 +1,6 @@
 export const profile = {
   name: 'Grace Arnold',
+  resumeFile: 'Grace_Arnold_Resume.pdf',
   email: 'grace.m.arnold@outlook.com',
   github: 'https://github.com/gmarnold',
   linkedin: 'https://www.linkedin.com/in/grace-m-arnold/',

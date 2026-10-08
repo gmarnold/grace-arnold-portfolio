@@ -1,6 +1,6 @@
 # Grace Arnold · Software Engineering Portfolio
 
-**[Explore the portfolio](https://gmarnold.github.io/grace-arnold-portfolio/)** · [Résumé](https://gmarnold.github.io/grace-arnold-portfolio/grace-arnold-resume.pdf) · [LinkedIn](https://www.linkedin.com/in/grace-m-arnold/) · [Email](mailto:grace.m.arnold@outlook.com)
+**[Explore the portfolio](https://gmarnold.github.io/grace-arnold-portfolio/)** · [Résumé](https://gmarnold.github.io/grace-arnold-portfolio/Grace_Arnold_Resume.pdf) · [LinkedIn](https://www.linkedin.com/in/grace-m-arnold/) · [Email](mailto:grace.m.arnold@outlook.com)
 
 I built this portfolio to show how I approach a complete product: clear professional content, accessible interactions, and optional creative features that leave the core experience fast and reliable.
 

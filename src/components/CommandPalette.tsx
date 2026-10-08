@@ -36,7 +36,7 @@ export default function CommandPalette({
       id: 'resume',
       label: 'Download résumé',
       keywords: 'resume cv pdf',
-      href: `${base}grace-arnold-resume.pdf`,
+      href: `${base}${profile.resumeFile}`,
       download: true,
     },
     { id: 'github', label: 'View GitHub', href: profile.github },

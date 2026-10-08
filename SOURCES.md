@@ -2,7 +2,7 @@
 
 Reviewed September 30, 2026.
 
-- Career facts: my original project brief, with QSRSoft ending September 2026. These take precedence over the older portfolio. No supplied private resume document was copied into the repository.
+- Career facts: my original project brief, with QSRSoft ending September 2026. These take precedence over the older portfolio. My supplied public resume is in public/Grace_Arnold_Resume.pdf and is published unchanged.
 - [Old portfolio source](https://github.com/gmarnold/ProfessionalWebsite): inspected source and built bundle read-only. Earlier student positioning is outdated; no old portrait or personal photos reused.
 - [Star Baker README](https://github.com/gmarnold/Unity-Create-with-Code#star-baker): original game versus course prototypes, development decisions, known coroutine limitation, free Unity Asset Store art, and gameplay video. I developed the project on my own.
 - [Gameplay scripts](https://github.com/gmarnold/Unity-Create-with-Code/tree/main/Star%20Baker/Assets/Scripts): inspected GameManager, PlayerController, MoveLeft, DifficultyButton, and RepeatBackground. Verified random spawns, force/torque motion, power-up timing, scoring, and collision handling. Did not modify the source project.

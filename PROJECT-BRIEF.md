@@ -23,7 +23,7 @@
 - I confirmed grace.m.arnold@outlook.com for commits. Repository-local author and committer settings verified after the first commit.
 - I supplied Star Baker's itch.io page and repository and confirmed sole developer status. README and C# scripts verified; real screenshot reused. Case study preserves the documented incomplete power-up timing fix and credits Asset Store art.
 - Selected QSRSoft, Star Baker, and research work; source review and reasons for excluding other repositories are in SOURCES.md.
-- General one-page resume generated from supplied facts; source lives in scripts/assets.ts.
+- My supplied resume is published unchanged from public/Grace_Arnold_Resume.pdf. Builds generate only the social image and illustration derivatives.
 - Prerendered HTML, hash navigation, self-hosted OFL fonts, no backend or external tracking. Manual-only Pages publishing workflow.
 - Final verification passed after the readability pass: typecheck, lint, formatting, three unit tests, production build, and eight desktop/mobile browser tests. Browser tests include axe, keyboard, reduced motion, assets, resume, no-JavaScript content, and overflow at 320/390/768/1440px. Desktop and mobile screenshots were visually reviewed, including an expanded case study.
 - Working production preview: http://127.0.0.1:4173/grace-arnold-portfolio/ (opened locally). Hidden server process ID is saved in ignored .local/preview.pid. Restart with npm run preview if needed.

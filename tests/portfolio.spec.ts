@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { PDFDocument } from 'pdf-lib';
+import { readFile } from 'node:fs/promises';
 
 test('read a case study, reach contact, and download the resume', async ({ page, isMobile }) => {
   const errors: string[] = [];
@@ -29,9 +30,10 @@ test('read a case study, reach contact, and download the resume', async ({ page,
   const downloadPromise = page.waitForEvent('download');
   await page.getByRole('link', { name: 'Download résumé' }).click();
   const download = await downloadPromise;
-  expect(download.suggestedFilename()).toBe('grace-arnold-resume.pdf');
-  const pdfResponse = await page.request.get('grace-arnold-resume.pdf');
+  expect(download.suggestedFilename()).toBe('Grace_Arnold_Resume.pdf');
+  const pdfResponse = await page.request.get('Grace_Arnold_Resume.pdf');
   expect(pdfResponse.ok()).toBeTruthy();
+  expect(await pdfResponse.body()).toEqual(await readFile('public/Grace_Arnold_Resume.pdf'));
   expect((await PDFDocument.load(await pdfResponse.body())).getPageCount()).toBe(1);
   expect(errors).toEqual([]);
 });
@@ -106,4 +108,29 @@ test('production content remains readable without JavaScript', async ({ browser 
   await page.locator('summary').nth(1).click();
   await expect(page.getByRole('heading', { name: 'The idea' })).toBeVisible();
   await context.close();
+});
+
+test('navigation and quick links download the supplied resume', async ({ page, isMobile }) => {
+  await page.goto('./');
+  if (isMobile) await page.getByRole('button', { name: 'Menu', exact: true }).click();
+  const resume = page.locator('.nav-resume');
+  await expect(resume).toHaveAttribute('href', /\/Grace_Arnold_Resume\.pdf$/);
+  const navigationDownload = page.waitForEvent('download');
+  await resume.click();
+  const fromNavigation = await navigationDownload;
+  expect(fromNavigation.suggestedFilename()).toBe('Grace_Arnold_Resume.pdf');
+  expect(await readFile((await fromNavigation.path())!)).toEqual(
+    await readFile('public/Grace_Arnold_Resume.pdf'),
+  );
+  if (isMobile) await page.getByRole('button', { name: 'Close', exact: true }).click();
+  await page.getByRole('button', { name: 'Quick links' }).click();
+  const dialog = page.getByRole('dialog', { name: 'Quick links' });
+  await dialog.getByRole('combobox', { name: 'Search commands' }).fill('resume');
+  const paletteDownload = page.waitForEvent('download');
+  await page.keyboard.press('Enter');
+  const fromPalette = await paletteDownload;
+  expect(fromPalette.suggestedFilename()).toBe('Grace_Arnold_Resume.pdf');
+  expect(await readFile((await fromPalette.path())!)).toEqual(
+    await readFile('public/Grace_Arnold_Resume.pdf'),
+  );
 });

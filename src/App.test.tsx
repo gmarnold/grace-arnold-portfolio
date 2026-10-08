@@ -31,7 +31,7 @@ describe('Recruiter journeys', () => {
     );
     expect(screen.getByRole('link', { name: /Download résumé/ })).toHaveAttribute(
       'href',
-      '/a-different-repo/grace-arnold-resume.pdf',
+      '/a-different-repo/Grace_Arnold_Resume.pdf',
     );
     expect(screen.getByRole('link', { name: /Download résumé/ })).toHaveAttribute('download');
   });

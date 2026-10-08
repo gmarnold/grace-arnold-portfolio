@@ -91,7 +91,7 @@ function Portfolio({ base }: { base: string }) {
               {label}
             </a>
           ))}
-          <a className="nav-resume" href={`${base}grace-arnold-resume.pdf`} download>
+          <a className="nav-resume" href={`${base}${profile.resumeFile}`} download>
             Résumé <span aria-hidden="true">↓</span>
           </a>
         </nav>
@@ -239,7 +239,7 @@ function Portfolio({ base }: { base: string }) {
               mascot="eldegirlboss"
               base={base}
             >
-              <a className="text-link" href={`${base}grace-arnold-resume.pdf`} download>
+              <a className="text-link" href={`${base}${profile.resumeFile}`} download>
                 Download résumé <span aria-hidden="true">↓</span>
               </a>
             </SectionHeading>
