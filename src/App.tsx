@@ -108,8 +108,9 @@ function Portfolio({ base }: { base: string }) {
               <em>Hello World.</em>
             </h1>
             <p className="hero-description">
-              Hi, I’m Grace. I build useful interfaces and the services behind them, and I stay with
-              the work from the first question to life in production.
+              Hi, I’m Grace. Ten years ago, I fell in love with coding; now I build useful
+              interfaces and the services behind them. What keeps me hooked is the whole path from
+              figuring out what should exist to making sure it works once people depend on it.
             </p>
             <div className="hero-actions">
               <a className="button button-dark" href="#work">
@@ -300,12 +301,12 @@ function Portfolio({ base }: { base: string }) {
               </p>
               <p>
                 That’s taken me from customer-facing software to research workflows, programming
-                labs, and a small game about an astronaut collecting cake. I’m drawn to useful
-                products and the care it takes to make them work well.
+                labs, and a small game about an astronaut collecting cake.
               </p>
               <p>
-                I’m interested in teams working across education, healthcare, research, and creative
-                technology, where I can build tools that help people in their daily work.
+                I’m drawn to useful products and the care it takes to make them work well.
+                Education, healthcare, research, and creative technology especially interest me
+                because good tools can make complicated work clearer and easier to do.
               </p>
             </div>
           </div>
@@ -375,7 +376,7 @@ function Portfolio({ base }: { base: string }) {
           grace arnold
           <BrandMark base={base} />
         </a>
-        <p>Built & illustrated by me. React & TypeScript.</p>
+        <p>Built & illustrated by me.</p>
         <a href="#">
           Back to top <span aria-hidden="true">↑</span>
         </a>

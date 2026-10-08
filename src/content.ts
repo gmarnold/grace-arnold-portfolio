@@ -34,7 +34,7 @@ export const projects: CaseStudy[] = [
       },
       {
         heading: 'My contribution',
-        text: 'I built frontend features, backend microservices, and GraphQL/HTTP APIs with TypeScript and JavaScript, Vue.js, Node.js, Express, PostgreSQL, DynamoDB, and AWS. I worked with product managers, designers, QA, and support to translate customer workflows into maintainable solutions.',
+        text: 'I built frontend features, backend microservices, and GraphQL/HTTP APIs with TypeScript and JavaScript, Vue.js, Node.js, Express, PostgreSQL, DynamoDB, and AWS. Together with product managers, designers, QA, and support, I translated customer workflows into maintainable solutions.',
       },
       {
         heading: 'Engineering practice',
@@ -101,7 +101,7 @@ export const projects: CaseStudy[] = [
       },
       {
         heading: 'My contribution',
-        text: 'I redesigned and optimized Python data-processing, analytics, and visualization workflows using NumPy and Pandas. I also led Python, NumPy, and Pandas meetings and workshops for the 14-member research team.',
+        text: 'I redesigned and optimized Python data-processing, analytics, and visualization workflows using NumPy and Pandas. For the 14-member research team, I led meetings and workshops on Python, NumPy, and Pandas.',
       },
       {
         heading: 'Outcome & scope',
