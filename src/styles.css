@@ -164,20 +164,57 @@ p {
   margin-top: 0;
 }
 h1 {
-  font-family: var(--font-sans);
+  font-family: var(--font-serif);
   font-size: clamp(40px, 4.3vw, 60px);
   font-weight: 550;
   line-height: 1.18;
   letter-spacing: -0.025em;
   margin-bottom: 28px;
 }
-h1 em {
+h1 .hero-code {
   display: inline-block;
-  font-family: var(--font-serif);
-  font-size: 1.12em;
-  font-weight: 450;
+  position: relative;
+  font-family: ui-monospace, 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+  font-size: 0.82em;
+  font-weight: 400;
   font-style: normal;
+  letter-spacing: 0;
+  white-space: nowrap;
   color: var(--accent-strong);
+}
+.hero-typed {
+  display: inline-block;
+  /* Clipping keeps the full text in both layout and the accessibility tree. */
+  animation: hero-type 1.08s steps(12, end) 0.12s backwards;
+}
+.hero-code::after {
+  content: '';
+  position: absolute;
+  right: -0.2ch;
+  top: 0.18em;
+  width: 1px;
+  height: 0.85em;
+  background: currentColor;
+  opacity: 0;
+  animation: hero-cursor 0.5s step-end 1.2s 3;
+}
+@keyframes hero-type {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+@keyframes hero-cursor {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  20%,
+  80% {
+    opacity: 0.55;
+  }
 }
 .hero-description {
   max-width: 560px;

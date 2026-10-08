@@ -105,7 +105,10 @@ function Portfolio({ base }: { base: string }) {
             <h1 id="intro-heading">
               You had me at
               <br />
-              <em>Hello World.</em>
+              <em className="hero-code">
+                {'> '}
+                <span className="hero-typed">Hello World.</span>
+              </em>
             </h1>
             <p className="hero-description">
               Hi, I’m Grace. Ten years ago, I fell in love with coding; now I build useful
