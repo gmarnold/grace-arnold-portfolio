@@ -1043,7 +1043,8 @@ figcaption {
   --section-accent: var(--section-sage);
 }
 #about {
-  --section-accent: var(--section-butter);
+  background: var(--surface-blue);
+  --section-accent: var(--section-blue);
 }
 #contact {
   --section-accent: var(--section-pink);

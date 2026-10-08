@@ -271,46 +271,44 @@ function Portfolio({ base }: { base: string }) {
           </div>
         </section>
 
-        <section
-          id="about"
-          className="section wrap education-section"
-          aria-labelledby="education-title"
-        >
-          <SectionHeading
-            id="education-title"
-            title="Education"
-            mascot="muscle-milcery"
-            base={base}
-          />
-          <div className="education-layout">
-            <div className="education">
-              <h3>M.S. & B.S. in Computer Science</h3>
-              <p>Illinois Institute of Technology · May 2022</p>
-              <ul>
-                <li>
-                  Teaching Assistant, 2019–2022: led Computer Organization/MIPS and Data Structures
-                  labs serving 80+ students.
-                </li>
-                <li>
-                  Founder and President, Google Developer Student Clubs: taught Google Cloud and
-                  Android development.
-                </li>
-                <li>Mentored three software engineering interns at QSRSoft.</li>
-              </ul>
-            </div>
-            <div className="about-copy">
-              <p className="about-lead">
-                I like making complicated things easier to use and easier to understand.
-              </p>
-              <p>
-                That’s taken me from customer-facing software to research workflows, programming
-                labs, and a small game about an astronaut collecting cake.
-              </p>
-              <p>
-                I’m drawn to useful products and the care it takes to make them work well.
-                Education, healthcare, research, and creative technology especially interest me
-                because good tools can make complicated work clearer and easier to do.
-              </p>
+        <section id="about" className="section education-section" aria-labelledby="education-title">
+          <div className="wrap">
+            <SectionHeading
+              id="education-title"
+              title="Education"
+              mascot="muscle-milcery"
+              base={base}
+            />
+            <div className="education-layout">
+              <div className="education">
+                <h3>M.S. & B.S. in Computer Science</h3>
+                <p>Illinois Institute of Technology · May 2022</p>
+                <ul>
+                  <li>
+                    Teaching Assistant, 2019–2022: led Computer Organization/MIPS and Data
+                    Structures labs serving 80+ students.
+                  </li>
+                  <li>
+                    Founder and President, Google Developer Student Clubs: taught Google Cloud and
+                    Android development.
+                  </li>
+                  <li>Mentored three software engineering interns at QSRSoft.</li>
+                </ul>
+              </div>
+              <div className="about-copy">
+                <p className="about-lead">
+                  I like making complicated things easier to use and easier to understand.
+                </p>
+                <p>
+                  That’s taken me from customer-facing software to research workflows, programming
+                  labs, and a small game about an astronaut collecting cake.
+                </p>
+                <p>
+                  I’m drawn to useful products and the care it takes to make them work well.
+                  Education, healthcare, research, and creative technology especially interest me
+                  because good tools can make complicated work clearer and easier to do.
+                </p>
+              </div>
             </div>
           </div>
         </section>

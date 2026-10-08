@@ -5,6 +5,7 @@
   --section-pink: #ce9eb6;
   --surface-blush: #f1e2e9;
   --surface-sage: #edf0eb;
+  --surface-blue: #e9edf7;
   color-scheme: light;
   --surface-muted: #f3edf2;
   --surface-tint: #eee5f0;
@@ -28,6 +29,7 @@
   --section-pink: #c9a0b8;
   --surface-blush: #3b2936;
   --surface-sage: #292e2c;
+  --surface-blue: #252c40;
   color-scheme: dark;
   --color-paper: #281f2c;
   --color-ink: #f8eef0;
@@ -56,6 +58,7 @@
     --section-pink: #c9a0b8;
     --surface-blush: #3b2936;
     --surface-sage: #292e2c;
+    --surface-blue: #252c40;
     color-scheme: dark;
     --color-paper: #281f2c;
     --color-ink: #f8eef0;
