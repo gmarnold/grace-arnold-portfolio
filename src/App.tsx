@@ -101,16 +101,14 @@ function Portfolio({ base }: { base: string }) {
         <section className="hero wrap" aria-labelledby="intro-heading">
           <HeroAtmosphere />
           <div className="hero-main">
-            <p className="eyebrow hero-kicker">
-              <span className="status-dot" /> FULL-STACK SOFTWARE ENGINEER
-            </p>
+            <p className="hero-kicker">Full-Stack Software Engineer</p>
             <h1 id="intro-heading">
               You had me at
               <br />
               <em>Hello World.</em>
             </h1>
             <p className="hero-description">
-              Hi, I’m Grace. I build useful interfaces and the services behind them—and stay with
+              Hi, I’m Grace. I build useful interfaces and the services behind them, and I stay with
               the work from the first question to life in production.
             </p>
             <div className="hero-actions">
@@ -134,109 +132,95 @@ function Portfolio({ base }: { base: string }) {
           </div>
         </section>
 
-        <section className="summary-band" aria-label="Professional summary">
-          <div className="wrap summary-inner">
-            <p className="eyebrow">THE THROUGH LINE</p>
-            <p>
-              I connect the details that make software work:{' '}
-              <strong>
-                a clear interface, a reliable service, and a team that understands both.
-              </strong>{' '}
-              My experience spans production products, research tooling, and teaching the next
-              person how it all fits together.
-            </p>
+        <section id="work" className="work-section section" aria-labelledby="work-title">
+          <div className="wrap">
+            <SectionHeading
+              id="work-title"
+              title="Selected Work"
+              mascot="calyrex-gamer"
+              base={base}
+            />
+            <article className="project production-project">
+              <div className="project-copy">
+                <p className="eyebrow">{projects[0].category}</p>
+                <h3>{projects[0].title}</h3>
+                <p className="project-summary">{projects[0].summary}</p>
+                <ul className="tags" aria-label="Technologies">
+                  {projects[0].stack.map((tag) => (
+                    <li key={tag}>{tag}</li>
+                  ))}
+                </ul>
+                <CaseStudy project={projects[0]} />
+              </div>
+              <aside className="ownership-note" aria-label="Scope of production ownership">
+                <h4>Calendar &amp; Chat at QSRSoft</h4>
+                <dl>
+                  <div>
+                    <dt>People served</dt>
+                    <dd>1,000+ franchise managers</dd>
+                  </div>
+                  <div>
+                    <dt>Delivery</dt>
+                    <dd>Requirements, technical design, implementation, and rollout</dd>
+                  </div>
+                  <div>
+                    <dt>In production</dt>
+                    <dd>Support, investigation, and continued improvement</dd>
+                  </div>
+                </dl>
+              </aside>
+            </article>
+            <article className="project creative-project">
+              <figure className="game-figure">
+                <a
+                  href="https://grachay.itch.io/star-baker"
+                  aria-label="Play Star Baker on itch.io"
+                >
+                  <img
+                    src={`${base}images/star-baker.webp`}
+                    width="1200"
+                    height="717"
+                    loading="lazy"
+                    alt="Star Baker gameplay screenshot: an astronaut collecting baked goods among asteroids in space"
+                  />
+                  <span className="play-label">
+                    Play Star Baker <Arrow />
+                  </span>
+                </a>
+                <figcaption>
+                  Star Baker · Gameplay screenshot from the published itch.io page
+                </figcaption>
+              </figure>
+              <div className="project-copy">
+                <p className="eyebrow">{projects[1].category}</p>
+                <h3>{projects[1].title}</h3>
+                <p className="project-summary">{projects[1].summary}</p>
+                <ul className="tags" aria-label="Technologies">
+                  {projects[1].stack.map((tag) => (
+                    <li key={tag}>{tag}</li>
+                  ))}
+                </ul>
+                <CaseStudy project={projects[1]} />
+              </div>
+            </article>
+            <article className="research-project">
+              <div className="research-number" aria-hidden="true">
+                17<span>GB / DAY</span>
+              </div>
+              <div className="project-copy">
+                <p className="eyebrow">{projects[2].category}</p>
+                <h3>{projects[2].title}</h3>
+                <p className="project-summary">{projects[2].summary}</p>
+                <ul className="tags" aria-label="Technologies">
+                  {projects[2].stack.map((tag) => (
+                    <li key={tag}>{tag}</li>
+                  ))}
+                </ul>
+                <CaseStudy project={projects[2]} />
+              </div>
+            </article>
+            <Engineering base={base} />
           </div>
-        </section>
-
-        <section id="work" className="section wrap" aria-labelledby="work-title">
-          <SectionHeading
-            id="work-title"
-            title="SELECTED WORK"
-            mascot="calyrex-gamer"
-            base={base}
-          />
-          <article className="project production-project">
-            <div className="project-copy">
-              <p className="eyebrow">{projects[0].category}</p>
-              <h3>{projects[0].title}</h3>
-              <p className="project-summary">{projects[0].summary}</p>
-              <ul className="tags" aria-label="Technologies">
-                {projects[0].stack.map((tag) => (
-                  <li key={tag}>{tag}</li>
-                ))}
-              </ul>
-              <CaseStudy project={projects[0]} />
-            </div>
-            <div className="production-visual" aria-label="Scope of production ownership">
-              <div className="visual-top">
-                <span>FROM FIRST QUESTION</span>
-              </div>
-              <div className="ownership-type">
-                Build.
-                <br />
-                Ship.
-                <br />
-                <em>Stay with it.</em>
-              </div>
-              <div className="visual-bottom">
-                <p>
-                  <strong>1,000+</strong>
-                  <span>franchise managers served</span>
-                </p>
-                <span className="visual-spark" aria-hidden="true">
-                  ✳
-                </span>
-              </div>
-              <p className="visual-caption">CALENDAR & CHAT · QSRSoft</p>
-            </div>
-          </article>
-          <article className="project creative-project">
-            <figure className="game-figure">
-              <a href="https://grachay.itch.io/star-baker" aria-label="Play Star Baker on itch.io">
-                <img
-                  src={`${base}images/star-baker.webp`}
-                  width="1200"
-                  height="717"
-                  loading="lazy"
-                  alt="Star Baker gameplay screenshot: an astronaut collecting baked goods among asteroids in space"
-                />
-                <span className="play-label">
-                  Play Star Baker <Arrow />
-                </span>
-              </a>
-              <figcaption>
-                Star Baker · Gameplay screenshot from the published itch.io page
-              </figcaption>
-            </figure>
-            <div className="project-copy">
-              <p className="eyebrow">{projects[1].category}</p>
-              <h3>{projects[1].title}</h3>
-              <p className="project-summary">{projects[1].summary}</p>
-              <ul className="tags" aria-label="Technologies">
-                {projects[1].stack.map((tag) => (
-                  <li key={tag}>{tag}</li>
-                ))}
-              </ul>
-              <CaseStudy project={projects[1]} />
-            </div>
-          </article>
-          <article className="research-project">
-            <div className="research-number" aria-hidden="true">
-              17<span>GB / DAY</span>
-            </div>
-            <div className="project-copy">
-              <p className="eyebrow">{projects[2].category}</p>
-              <h3>{projects[2].title}</h3>
-              <p className="project-summary">{projects[2].summary}</p>
-              <ul className="tags" aria-label="Technologies">
-                {projects[2].stack.map((tag) => (
-                  <li key={tag}>{tag}</li>
-                ))}
-              </ul>
-              <CaseStudy project={projects[2]} />
-            </div>
-          </article>
-          <Engineering base={base} />
         </section>
 
         <section
@@ -247,7 +231,7 @@ function Portfolio({ base }: { base: string }) {
           <div className="wrap">
             <SectionHeading
               id="experience-title"
-              title="EXPERIENCE"
+              title="Experience"
               mascot="eldegirlboss"
               base={base}
             >
@@ -290,7 +274,7 @@ function Portfolio({ base }: { base: string }) {
         >
           <SectionHeading
             id="education-title"
-            title="EDUCATION"
+            title="Education"
             mascot="muscle-milcery"
             base={base}
           />
@@ -311,9 +295,8 @@ function Portfolio({ base }: { base: string }) {
               </ul>
             </div>
             <div className="about-copy">
-              <h3>A little about me</h3>
               <p className="about-lead">
-                I like making complicated things easier to use—and easier to understand.
+                I like making complicated things easier to use and easier to understand.
               </p>
               <p>
                 That’s taken me from customer-facing software to research workflows, programming
@@ -322,8 +305,7 @@ function Portfolio({ base }: { base: string }) {
               </p>
               <p>
                 I’m interested in teams working across education, healthcare, research, and creative
-                technology, as well as other places where thoughtful engineering can make someone’s
-                day better.
+                technology, where I can build tools that help people in their daily work.
               </p>
             </div>
           </div>
@@ -331,27 +313,43 @@ function Portfolio({ base }: { base: string }) {
 
         <section id="contact" className="contact-section" aria-labelledby="contact-title">
           <div className="wrap">
-            <SectionHeading id="contact-title" title="LET’S CONNECT" mascot="toggers" base={base} />
-            <div className="contact-main">
-              <div>
-                <p>
-                  I’m open to remote software engineering and full-stack roles,
-                  <br className="desktop-break" /> with Chicago and St. Louis opportunities welcome,
-                  too.
-                </p>
+            <div className="contact-layout">
+              <SectionHeading id="contact-title" title="Let’s Connect" mascot="toggers" base={base}>
+                <a
+                  className="contact-arrow"
+                  href={`mailto:${profile.email}`}
+                  aria-label="Email Grace Arnold"
+                >
+                  <Arrow />
+                </a>
+              </SectionHeading>
+              <div className="contact-copy">
+                <div className="contact-main">
+                  <div>
+                    <p>
+                      I’m open to remote software engineering and full-stack roles,
+                      <br className="desktop-break" /> with Chicago and St. Louis opportunities
+                      welcome, too.
+                    </p>
+                  </div>
+                </div>
+                <a className="email-link" href={`mailto:${profile.email}`}>
+                  {profile.email}
+                </a>
+                <CopyEmail base={base} />
               </div>
-              <a
-                className="contact-arrow"
-                href={`mailto:${profile.email}`}
-                aria-label="Email Grace Arnold"
-              >
-                <Arrow />
-              </a>
+              <div className="contact-art-group">
+                <img
+                  className="contact-art"
+                  src={`${base}images/togetic-mail.webp`}
+                  width="256"
+                  height="256"
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
             </div>
-            <a className="email-link" href={`mailto:${profile.email}`}>
-              {profile.email}
-            </a>
-            <CopyEmail base={base} />
             <div className="contact-bottom">
               <span className="contact-signature">
                 <BrandMark base={base} />
@@ -377,7 +375,7 @@ function Portfolio({ base }: { base: string }) {
           grace arnold
           <BrandMark base={base} />
         </a>
-        <p>Thoughtfully built with React & TypeScript.</p>
+        <p>Built & illustrated by me. React & TypeScript.</p>
         <a href="#">
           Back to top <span aria-hidden="true">↑</span>
         </a>

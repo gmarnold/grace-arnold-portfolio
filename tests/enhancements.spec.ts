@@ -8,20 +8,20 @@ test('system theme responds to OS changes; explicit overrides persist', async ({
   await page.goto('./');
   const theme = page.getByRole('combobox', { name: 'Color theme' });
   await expect(theme).toHaveValue('system');
-  await expect(page.locator('html')).toHaveCSS('background-color', 'rgb(33, 29, 41)');
+  await expect(page.locator('html')).toHaveCSS('background-color', 'rgb(40, 31, 44)');
   await theme.selectOption('light');
   await page.reload();
   await expect(theme).toHaveValue('light');
-  await expect(page.locator('html')).toHaveCSS('background-color', 'rgb(247, 246, 242)');
+  await expect(page.locator('html')).toHaveCSS('background-color', 'rgb(250, 245, 247)');
   await theme.selectOption('dark');
   await page.reload();
   await expect(theme).toHaveValue('dark');
   await theme.selectOption('system');
   expect(await page.evaluate(() => localStorage.getItem('grace-portfolio-theme'))).toBeNull();
   await page.emulateMedia({ colorScheme: 'light' });
-  await expect(page.locator('html')).toHaveCSS('background-color', 'rgb(247, 246, 242)');
+  await expect(page.locator('html')).toHaveCSS('background-color', 'rgb(250, 245, 247)');
   await page.emulateMedia({ colorScheme: 'dark' });
-  await expect(page.locator('html')).toHaveCSS('background-color', 'rgb(33, 29, 41)');
+  await expect(page.locator('html')).toHaveCSS('background-color', 'rgb(40, 31, 44)');
 });
 
 test('keyboard palette searches, navigates, traps focus and restores its opener', async ({
@@ -195,7 +195,7 @@ test('no-JavaScript dark fallback and blocked storage leave content readable', a
   const context = await browser.newContext({ javaScriptEnabled: false, colorScheme: 'dark' });
   const page = await context.newPage();
   await page.goto('http://127.0.0.1:4173/grace-arnold-portfolio/');
-  await expect(page.locator('html')).toHaveCSS('background-color', 'rgb(33, 29, 41)');
+  await expect(page.locator('html')).toHaveCSS('background-color', 'rgb(40, 31, 44)');
   await page.locator('.engineering-details summary').click();
   await expect(page.getByText('Readable first. Interactive when useful.')).toBeVisible();
   await expect(page.getByRole('button', { name: 'Quick links' })).not.toBeVisible();
@@ -211,7 +211,7 @@ test('no-JavaScript dark fallback and blocked storage leave content readable', a
   });
   await interactive.goto('http://127.0.0.1:4173/grace-arnold-portfolio/');
   await interactive.getByRole('combobox', { name: 'Color theme' }).selectOption('dark');
-  await expect(interactive.locator('html')).toHaveCSS('background-color', 'rgb(33, 29, 41)');
+  await expect(interactive.locator('html')).toHaveCSS('background-color', 'rgb(40, 31, 44)');
   await enabled.close();
 });
 

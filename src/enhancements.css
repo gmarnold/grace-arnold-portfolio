@@ -60,7 +60,7 @@ kbd {
 }
 .explore-dialog {
   border: 1px solid var(--line-accent);
-  border-radius: 12px;
+  border-radius: 8px;
   padding: 25px;
   background: var(--color-paper);
   color: var(--color-ink);
@@ -68,7 +68,7 @@ kbd {
   max-height: min(85dvh, 850px);
   overflow: auto;
   margin: auto;
-  box-shadow: 0 20px 90px #14101955;
+  box-shadow: 0 4px 16px #14101933;
 }
 .explore-dialog::backdrop {
   background: #141019aa;
@@ -226,10 +226,9 @@ kbd {
 }
 .architecture-flow li {
   counter-increment: architecture;
-  font-size: 12px;
-  padding: 16px;
-  border-left: 2px solid var(--line-accent);
-  background: var(--surface-muted);
+  font-size: 13px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
 }
 .architecture-flow li::before {
   content: counter(architecture, decimal-leading-zero) ' / ';

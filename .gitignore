@@ -11,3 +11,7 @@ coverage/
 # Local review reports and maintenance notes
 docs/*REPORT*.md
 docs/MAINTENANCE.md
+
+# Local design references
+DESIGN.md
+docs/ILLUSTRATION-BRIEF.md
